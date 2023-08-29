@@ -10,10 +10,14 @@
   align-items: center;
 }
 
-.insides {
+.burger {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.insides {
+  composes: burger;
   overflow-y: scroll;
   max-height: calc(100vh - 550px);
 }

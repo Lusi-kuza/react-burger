@@ -13,14 +13,14 @@ const BurgerIngredients = ({ ingredients }) => {
       >
         Соберите бургер
       </h1>
-      <div style={{ display: "flex" }} className="mb-10">
-        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+      <div className={`${burgerIngredientsStyle.tab} mb-10`}>
+        <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
           Булки
         </Tab>
-        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+        <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
           Соусы
         </Tab>
-        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+        <Tab value="main" active={current === "main"} onClick={setCurrent}>
           Начинки
         </Tab>
       </div>

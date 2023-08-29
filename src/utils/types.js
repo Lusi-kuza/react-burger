@@ -15,26 +15,33 @@ const productsPropTypes = PropTypes.shape({
   __v: PropTypes.number.isRequired,
 });
 
+const categoryPropTypes = PropTypes.shape({
+  idCategory: PropTypes.number.isRequired,
+  nameCategory: PropTypes.string.isRequired,
+  products: PropTypes.arrayOf(productsPropTypes).isRequired,
+});
+
+export const burgerCardPropTypes = {
+  ingredient: productsPropTypes.isRequired,
+};
+
 export const burgerConstructorPropTypes = {
   ingredients: PropTypes.arrayOf(productsPropTypes).isRequired,
 };
 
+export const burgerCategoryPropTypes = {
+  ingredients: categoryPropTypes.isRequired,
+};
+
 export const burgerIngredientPropTypes = {
   ingredients: PropTypes.shape({
-    bun: PropTypes.shape({
-      idCategory: PropTypes.number.isRequired,
-      nameCategory: PropTypes.string.isRequired,
-      products: PropTypes.arrayOf(productsPropTypes).isRequired,
-    }).isRequired,
-    sauce: PropTypes.shape({
-      idCategory: PropTypes.number.isRequired,
-      nameCategory: PropTypes.string.isRequired,
-      products: PropTypes.arrayOf(productsPropTypes).isRequired,
-    }).isRequired,
-    main: PropTypes.shape({
-      idCategory: PropTypes.number.isRequired,
-      nameCategory: PropTypes.string.isRequired,
-      products: PropTypes.arrayOf(productsPropTypes).isRequired,
-    }).isRequired,
+    bun: categoryPropTypes.isRequired,
+    sauce: categoryPropTypes.isRequired,
+    main: categoryPropTypes.isRequired,
   }).isRequired,
+};
+
+export const burgerPricePropTypes = {
+  price: PropTypes.number.isRequired,
+  fontStyle: PropTypes.string.isRequired,
 };

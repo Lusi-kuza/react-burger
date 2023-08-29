@@ -12,7 +12,7 @@ const BurgerConstructor = ({ ingredients }) => {
   return (
     <div className={`${burgerConstructorStyle.block} pt-25 pl-4 `}>
       <div
-        className="mb-10"
+        className={`${burgerConstructorStyle.burger} mb-10`}
         style={{ display: "flex", flexDirection: "column", gap: "16px" }}
       >
         <ConstructorElement
@@ -46,7 +46,7 @@ const BurgerConstructor = ({ ingredients }) => {
       </div>
 
       <div className={`${burgerConstructorStyle.ordering} mr-4`}>
-        <BurgerPrice price={"610"} style={"text_type_digits-medium"} />
+        <BurgerPrice price={610} fontStyle={"text_type_digits-medium"} />
         <Button htmlType="button" type="primary" size="large">
           Оформить заказ
         </Button>

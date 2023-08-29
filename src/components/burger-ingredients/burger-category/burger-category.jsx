@@ -1,6 +1,7 @@
 import React from "react";
 import burgerCategoryStyle from "./burger-category.module.css";
 import { BurgerCard } from "./burger-card/burger-card";
+import { burgerCategoryPropTypes } from "../../../utils/types";
 
 const BurgerCategory = ({ ingredients }) => {
   return (
@@ -20,5 +21,7 @@ const BurgerCategory = ({ ingredients }) => {
     </div>
   );
 };
+
+BurgerCategory.propTypes = burgerCategoryPropTypes;
 
 export { BurgerCategory };
