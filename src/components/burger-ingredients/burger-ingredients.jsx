@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import burgerIngredientsStyle from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerCategory } from "./burger-category/burger-category";
 import { burgerIngredientPropTypes } from "../../utils/types";
+import { Modal } from "../modal/modal";
+import { IngredientDetails } from "./ingredient-details/ingredient-details";
 
 const BurgerIngredients = ({ ingredients }) => {
-  const [current, setCurrent] = React.useState("one");
+  const [currentIngredient, setCurrentIngredient] = useState();
+  const [current, setCurrent] = useState("bun");
+
+  const openCard = (item) => {
+    setCurrentIngredient(item);
+  };
+
+  const closeCard = () => {
+    setCurrentIngredient(null);
+  };
+
   return (
     <div className={`${burgerIngredientsStyle.block} pt-10`}>
       <h1
@@ -26,9 +38,18 @@ const BurgerIngredients = ({ ingredients }) => {
       </div>
       <div className={`${burgerIngredientsStyle.ingredients} custom-scroll`}>
         {Object.values(ingredients).map((item) => (
-          <BurgerCategory key={item.idCategory} ingredients={item} />
+          <BurgerCategory
+            key={item.idCategory}
+            ingredients={item}
+            openCard={openCard}
+          />
         ))}
       </div>
+      {currentIngredient && (
+        <Modal title={"Детали ингредиента"} closeModal={closeCard}>
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
     </div>
   );
 };

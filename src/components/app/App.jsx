@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import appStyles from "./App.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
-import { INGREDUENTS_DATA } from "../../utils/data";
 
 function App() {
-  const ingredients = INGREDUENTS_DATA.reduce(
+  const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
+
+  const [state, setState] = useState({
+    isLoading: false,
+    hasError: false,
+    INGREDIENTS_DATA: [],
+  });
+
+  useEffect(() => {
+    const getIngredients = () => {
+      setState({ ...state, isLoading: true, hasError: false });
+      fetch(dataUrl)
+        .then((res) => res.json())
+        .then((data) =>
+          setState({ ...state, isLoading: false, INGREDIENTS_DATA: data.data })
+        )
+        .catch((e) => {
+          setState({ ...state, isLoading: false, hasError: true });
+        });
+    };
+    getIngredients();
+  }, []);
+
+  const ingredients = state.INGREDIENTS_DATA.reduce(
     (obj, item) => {
       if (item.type === "bun") {
         obj.bun.products.push(item);

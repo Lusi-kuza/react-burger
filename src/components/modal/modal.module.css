@@ -1,0 +1,21 @@
+.modal {
+  z-index: 2;
+  position: absolute;
+  top: calc(100vh / 2 - 270px);
+  left: calc(100vw / 2 - 360px);
+  width: 720px;
+  border-radius: 40px;
+  background: var(--background);
+  box-sizing: border-box;
+}
+
+.title {
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon {
+  cursor: pointer;
+}

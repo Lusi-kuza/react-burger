@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/drag-icon";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/button";
@@ -7,8 +7,20 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import burgerConstructorStyle from "./burger-constructor.module.css";
 import { BurgerPrice } from "../burger-price/burger-price";
 import { burgerConstructorPropTypes } from "../../utils/types";
+import { Modal } from "../modal/modal";
+import { OrderDetails } from "./order-details/order-details";
 
 const BurgerConstructor = ({ ingredients }) => {
+  const [order, setOrder] = useState();
+
+  const sendOrder = () => {
+    setOrder(null);
+  };
+
+  const makeOrder = () => {
+    setOrder(ingredients);
+  };
+
   return (
     <div className={`${burgerConstructorStyle.block} pt-25 pl-4 `}>
       <div
@@ -47,10 +59,20 @@ const BurgerConstructor = ({ ingredients }) => {
 
       <div className={`${burgerConstructorStyle.ordering} mr-4`}>
         <BurgerPrice price={610} fontStyle={"text_type_digits-medium"} />
-        <Button htmlType="button" type="primary" size="large">
+        <Button
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={makeOrder}
+        >
           Оформить заказ
         </Button>
       </div>
+      {order && (
+        <Modal title={""} closeModal={sendOrder}>
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 };
