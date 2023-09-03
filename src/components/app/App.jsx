@@ -3,6 +3,7 @@ import appStyles from "./App.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
+import { getData } from "../../utils/burger-api";
 
 function App() {
   const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
@@ -13,18 +14,18 @@ function App() {
     INGREDIENTS_DATA: [],
   });
 
+  const getIngredients = () => {
+    setState({ ...state, isLoading: true, hasError: false });
+    getData(dataUrl)
+      .then((data) =>
+        setState({ ...state, isLoading: false, INGREDIENTS_DATA: data.data })
+      )
+      .catch((e) => {
+        setState({ ...state, isLoading: false, hasError: true });
+      });
+  };
+
   useEffect(() => {
-    const getIngredients = () => {
-      setState({ ...state, isLoading: true, hasError: false });
-      fetch(dataUrl)
-        .then((res) => res.json())
-        .then((data) =>
-          setState({ ...state, isLoading: false, INGREDIENTS_DATA: data.data })
-        )
-        .catch((e) => {
-          setState({ ...state, isLoading: false, hasError: true });
-        });
-    };
     getIngredients();
   }, []);
 

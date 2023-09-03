@@ -1,6 +1,7 @@
 import React from "react";
 
 import ingredientDetailsStyles from "./ingredient-details.module.css";
+import { burgerCardPropTypes } from "../../../utils/types";
 
 const IngredientDetails = ({ ingredient }) => {
   return (
@@ -48,5 +49,7 @@ const IngredientDetails = ({ ingredient }) => {
     </div>
   );
 };
+
+IngredientDetails.propTypes = burgerCardPropTypes;
 
 export { IngredientDetails };
