@@ -31,6 +31,7 @@ export const burgerConstructorPropTypes = {
 
 export const burgerCategoryPropTypes = {
   ingredients: categoryPropTypes.isRequired,
+  openCard: PropTypes.func.isRequired,
 };
 
 export const burgerIngredientPropTypes = {
@@ -44,4 +45,14 @@ export const burgerIngredientPropTypes = {
 export const burgerPricePropTypes = {
   price: PropTypes.number.isRequired,
   fontStyle: PropTypes.string.isRequired,
+};
+
+export const modalOverlayPropTypes = {
+  closeModal: PropTypes.func.isRequired,
+};
+
+export const modalPropTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
