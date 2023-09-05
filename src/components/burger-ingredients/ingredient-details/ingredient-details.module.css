@@ -1,0 +1,24 @@
+.card {
+  margin: auto;
+  width: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+}
+.nutrition_values {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.nutrients {
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  composes: title;
+}

@@ -3,7 +3,7 @@ import burgerCategoryStyle from "./burger-category.module.css";
 import { BurgerCard } from "./burger-card/burger-card";
 import { burgerCategoryPropTypes } from "../../../utils/types";
 
-const BurgerCategory = ({ ingredients }) => {
+const BurgerCategory = ({ ingredients, openCard }) => {
   return (
     <div>
       <section className="pb-10">
@@ -12,7 +12,11 @@ const BurgerCategory = ({ ingredients }) => {
         </h2>
         <ul className={`${burgerCategoryStyle.list} pl-4 `}>
           {ingredients.products.map((item) => (
-            <li key={item._id} className={burgerCategoryStyle.item}>
+            <li
+              key={item._id}
+              className={burgerCategoryStyle.item}
+              onClick={() => openCard(item)}
+            >
               <BurgerCard ingredient={item} />
             </li>
           ))}
