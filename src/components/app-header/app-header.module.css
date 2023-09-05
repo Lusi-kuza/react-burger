@@ -1,0 +1,39 @@
+.header {
+  width: calc(100% - 80px);
+  min-width: 1280px;
+  height: 88px;
+  margin: auto;
+  background: linear-gradient(0deg, #1c1c21, #1c1c21);
+  box-sizing: border-box;
+}
+
+.nav {
+  width: 1280px;
+  height: 56px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.menu_left_block {
+  display: flex;
+  gap: 8px;
+}
+
+.menu_right_block {
+  display: flex;
+  justify-content: end;
+}
+
+.menu_item {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+}
+
+.menu_logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
