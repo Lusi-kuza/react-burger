@@ -47,6 +47,10 @@ export const burgerPricePropTypes = {
   fontStyle: PropTypes.string.isRequired,
 };
 
+export const orderDetailsPropTypes = {
+  order: PropTypes.number.isRequired,
+};
+
 export const modalOverlayPropTypes = {
   closeModal: PropTypes.func.isRequired,
 };

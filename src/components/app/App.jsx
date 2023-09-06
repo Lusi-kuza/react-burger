@@ -1,22 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import appStyles from "./App.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
-import { getData } from "../../utils/burger-api";
+import { getProduct } from "../../utils/burger-api";
+import {
+  BurgerContext,
+  ConstructorIngredientsContext,
+} from "../../services/appContext";
 
 function App() {
-  const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
-
   const [state, setState] = useState({
     isLoading: false,
     hasError: false,
     INGREDIENTS_DATA: [],
   });
 
+  const constructorInitialState = {
+    bun: null,
+    ingredient: [],
+  };
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "addBun":
+        return { ...state, bun: action.payload };
+      case "addIngredient":
+        return { ...state, ingredient: [...state.ingredient, action.payload] };
+      case "deleteIngredient":
+        return {
+          ...state,
+          ingredient: state.ingredient.filter(
+            (item) => item !== action.payload
+          ),
+        };
+      case "deleteAll":
+        return constructorInitialState;
+
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  };
+
+  const [constructorIngredients, constructorIngredientsDispatcher] = useReducer(
+    reducer,
+    constructorInitialState,
+    undefined
+  );
+
   const getIngredients = () => {
     setState({ ...state, isLoading: true, hasError: false });
-    getData(dataUrl)
+    getProduct()
       .then((data) =>
         setState({ ...state, isLoading: false, INGREDIENTS_DATA: data.data })
       )
@@ -29,41 +63,33 @@ function App() {
     getIngredients();
   }, []);
 
-  const ingredients = state.INGREDIENTS_DATA.reduce(
-    (obj, item) => {
-      if (item.type === "bun") {
-        obj.bun.products.push(item);
-      }
-      if (item.type === "main") {
-        obj.main.products.push(item);
-      }
-      if (item.type === "sauce") {
-        obj.sauce.products.push(item);
-      }
-      return obj;
-    },
-    {
-      bun: {
-        idCategory: 1,
-        nameCategory: "Булки",
-        products: [],
-      },
-      sauce: { idCategory: 2, nameCategory: "Соусы", products: [] },
-      main: { idCategory: 3, nameCategory: "Начинки", products: [] },
-    }
-  );
-
   return (
     <div className={appStyles.app}>
       <AppHeader />
       <main className={`${appStyles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor
-          ingredients={[
-            ...ingredients.main.products,
-            ...ingredients.sauce.products,
-          ]}
-        />
+        {state.isLoading && (
+          <p className="text_type_main-large mt-10">Загрузка данных...</p>
+        )}
+        {!state.isLoading && state.hasError && (
+          <p className="text_type_main-large mt-10">
+            Ошибка при загрузке данных
+          </p>
+        )}
+        {!state.isLoading &&
+          !state.hasError &&
+          state.INGREDIENTS_DATA.length > 0 && (
+            <BurgerContext.Provider value={state.INGREDIENTS_DATA}>
+              <ConstructorIngredientsContext.Provider
+                value={{
+                  constructorIngredients,
+                  constructorIngredientsDispatcher,
+                }}
+              >
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </ConstructorIngredientsContext.Provider>
+            </BurgerContext.Provider>
+          )}
       </main>
     </div>
   );

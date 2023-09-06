@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/drag-icon";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/button";
@@ -6,19 +6,52 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 
 import burgerConstructorStyle from "./burger-constructor.module.css";
 import { BurgerPrice } from "../burger-price/burger-price";
-import { burgerConstructorPropTypes } from "../../utils/types";
+// import { burgerConstructorPropTypes } from "../../utils/types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "./order-details/order-details";
+import { ConstructorIngredientsContext } from "../../services/appContext";
+import { getOrder } from "../../utils/burger-api";
 
-const BurgerConstructor = ({ ingredients }) => {
-  const [order, setOrder] = useState();
+const BurgerConstructor = () => {
+  const { constructorIngredients, constructorIngredientsDispatcher } =
+    useContext(ConstructorIngredientsContext);
 
-  const sendOrder = () => {
-    setOrder(null);
-  };
+  const deleteIngredient = (elem) =>
+    constructorIngredientsDispatcher({
+      type: "deleteIngredient",
+      payload: elem,
+    });
+
+  let totalPrice =
+    (constructorIngredients.bun ? constructorIngredients.bun.price * 2 : 0) +
+    (constructorIngredients.ingredient.length
+      ? constructorIngredients.ingredient.reduce((sum, el) => sum + el.price, 0)
+      : 0);
+
+  const [order, setOrder] = useState({
+    isLoading: false,
+    hasError: false,
+    orderNumber: null,
+  });
 
   const makeOrder = () => {
-    setOrder(ingredients);
+    setOrder({ ...order, isLoading: true, hasError: false });
+    getOrder(constructorIngredients)
+      .then((data) =>
+        setOrder({
+          ...order,
+          isLoading: false,
+          orderNumber: data.order.number,
+        })
+      )
+      .catch((e) => {
+        setOrder({ ...order, isLoading: false, hasError: true });
+      });
+  };
+
+  const resetOrder = () => {
+    setOrder({ isLoading: false, hasError: false, orderNumber: null });
+    constructorIngredientsDispatcher({ type: "deleteAll" });
   };
 
   return (
@@ -27,38 +60,45 @@ const BurgerConstructor = ({ ingredients }) => {
         className={`${burgerConstructorStyle.burger} mb-10`}
         style={{ display: "flex", flexDirection: "column", gap: "16px" }}
       >
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-01.png"}
-          extraClass={"ml-7"}
-        />
-        <ul className={`${burgerConstructorStyle.insides} custom-scroll`}>
-          {ingredients.map((el) => (
-            <li className={burgerConstructorStyle.item} key={el._id}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={el.name}
-                price={el.price}
-                thumbnail={el.image}
-              />
-            </li>
-          ))}
-        </ul>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-01.png"}
-          extraClass={"ml-7"}
-        />
+        {constructorIngredients.bun && (
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={constructorIngredients.bun.name}
+            price={constructorIngredients.bun.price}
+            thumbnail={constructorIngredients.bun.image}
+            extraClass={"ml-7"}
+          />
+        )}
+        {constructorIngredients.ingredient.length > 0 && (
+          <ul className={`${burgerConstructorStyle.insides} custom-scroll`}>
+            {constructorIngredients.ingredient.map((el) => (
+              <li className={burgerConstructorStyle.item} key={el.id_for_key}>
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  text={el.name}
+                  price={el.price}
+                  thumbnail={el.image}
+                  handleClose={() => deleteIngredient(el)}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+        {constructorIngredients.bun && (
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={constructorIngredients.bun.name}
+            price={constructorIngredients.bun.price}
+            thumbnail={constructorIngredients.bun.image}
+            extraClass={"ml-7"}
+          />
+        )}
       </div>
 
       <div className={`${burgerConstructorStyle.ordering} mr-4`}>
-        <BurgerPrice price={610} fontStyle={"text_type_digits-medium"} />
+        <BurgerPrice price={totalPrice} fontStyle={"text_type_digits-medium"} />
         <Button
           htmlType="button"
           type="primary"
@@ -68,15 +108,15 @@ const BurgerConstructor = ({ ingredients }) => {
           Оформить заказ
         </Button>
       </div>
-      {order && (
-        <Modal title={""} closeModal={sendOrder}>
-          <OrderDetails />
+      {!order.isLoading && !order.hasError && order.orderNumber && (
+        <Modal title={""} closeModal={resetOrder}>
+          <OrderDetails order={order.orderNumber} />
         </Modal>
       )}
     </div>
   );
 };
 
-BurgerConstructor.propTypes = burgerConstructorPropTypes;
+// BurgerConstructor.propTypes = burgerConstructorPropTypes;
 
 export { BurgerConstructor };
