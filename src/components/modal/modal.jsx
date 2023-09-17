@@ -9,10 +9,10 @@ import { modalPropTypes } from "../../utils/types";
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = ({ title, children, closeModal }) => {
-  const handlerCloseCard = (e) => {
-    if (e.code === "Escape") closeModal();
-  };
   useEffect(() => {
+    const handlerCloseCard = (e) => {
+      if (e.code === "Escape") closeModal();
+    };
     document.addEventListener("keydown", handlerCloseCard);
     return () => {
       document.removeEventListener("keydown", handlerCloseCard);
