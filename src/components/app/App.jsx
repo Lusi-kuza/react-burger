@@ -1,69 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import appStyles from "./App.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
-import { getData } from "../../utils/burger-api";
+
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/ingredients/actions";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
+  const { isLoading, hasError, INGREDIENTS_DATA } = useSelector(
+    (store) => store.ingredients
+  );
 
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    INGREDIENTS_DATA: [],
-  });
-
-  const getIngredients = () => {
-    setState({ ...state, isLoading: true, hasError: false });
-    getData(dataUrl)
-      .then((data) =>
-        setState({ ...state, isLoading: false, INGREDIENTS_DATA: data.data })
-      )
-      .catch((e) => {
-        setState({ ...state, isLoading: false, hasError: true });
-      });
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getIngredients();
-  }, []);
-
-  const ingredients = state.INGREDIENTS_DATA.reduce(
-    (obj, item) => {
-      if (item.type === "bun") {
-        obj.bun.products.push(item);
-      }
-      if (item.type === "main") {
-        obj.main.products.push(item);
-      }
-      if (item.type === "sauce") {
-        obj.sauce.products.push(item);
-      }
-      return obj;
-    },
-    {
-      bun: {
-        idCategory: 1,
-        nameCategory: "Булки",
-        products: [],
-      },
-      sauce: { idCategory: 2, nameCategory: "Соусы", products: [] },
-      main: { idCategory: 3, nameCategory: "Начинки", products: [] },
-    }
-  );
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
     <div className={appStyles.app}>
       <AppHeader />
       <main className={`${appStyles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor
-          ingredients={[
-            ...ingredients.main.products,
-            ...ingredients.sauce.products,
-          ]}
-        />
+        {isLoading && (
+          <p className="text_type_main-large mt-10">Загрузка данных...</p>
+        )}
+        {!isLoading && hasError && (
+          <p className="text_type_main-large mt-10">
+            Ошибка при загрузке данных
+          </p>
+        )}
+        {!isLoading && !hasError && INGREDIENTS_DATA.length > 0 && (
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
+        )}
       </main>
     </div>
   );

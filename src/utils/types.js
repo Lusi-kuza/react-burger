@@ -19,14 +19,17 @@ const categoryPropTypes = PropTypes.shape({
   idCategory: PropTypes.number.isRequired,
   nameCategory: PropTypes.string.isRequired,
   products: PropTypes.arrayOf(productsPropTypes).isRequired,
+  categoryRef: PropTypes.shape({ current: PropTypes.any }).isRequired,
 });
 
 export const burgerCardPropTypes = {
   ingredient: productsPropTypes.isRequired,
+  count: PropTypes.number,
 };
 
-export const burgerConstructorPropTypes = {
-  ingredients: PropTypes.arrayOf(productsPropTypes).isRequired,
+export const IngredientListPropTypes = {
+  product: productsPropTypes.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export const burgerCategoryPropTypes = {
@@ -45,6 +48,10 @@ export const burgerIngredientPropTypes = {
 export const burgerPricePropTypes = {
   price: PropTypes.number.isRequired,
   fontStyle: PropTypes.string.isRequired,
+};
+
+export const orderDetailsPropTypes = {
+  order: PropTypes.number.isRequired,
 };
 
 export const modalOverlayPropTypes = {
