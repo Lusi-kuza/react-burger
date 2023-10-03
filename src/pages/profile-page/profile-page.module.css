@@ -1,0 +1,39 @@
+.content {
+  width: 1240px;
+  margin: auto;
+  display: flex;
+  gap: 60px;
+}
+
+.navigate {
+  width: 320px;
+  composes: mt-30 from global;
+}
+
+.navigate_list {
+  list-style-type: none;
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.navigate_item {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.link_active {
+  text-decoration: none;
+  composes: text_type_main-medium text_color_primary from global;
+}
+
+.link_inactive {
+  composes: link_active;
+  composes: text_color_inactive from global;
+}
+
+.info {
+  width: 320px;
+  composes: text_color_inactive text_type_main-default mt-20 from global;
+}

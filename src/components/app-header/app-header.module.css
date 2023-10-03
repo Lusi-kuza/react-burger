@@ -5,6 +5,7 @@
   margin: auto;
   background: linear-gradient(0deg, #1c1c21, #1c1c21);
   box-sizing: border-box;
+  composes: pt-4 pb-4 ml-10 mr-10 from global;
 }
 
 .nav {
@@ -30,10 +31,20 @@
   display: flex;
   align-items: center;
   border-radius: 40px;
+  composes: pt-4 pr-5 pb-4 pl-5 from global;
 }
 
 .menu_logo {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.menu_title_active {
+  composes: text_type_main-default text_color_primary pl-2 from global;
+}
+
+.menu_title_inactive {
+  composes: menu_title_active;
+  composes: text_color_inactive from global;
 }

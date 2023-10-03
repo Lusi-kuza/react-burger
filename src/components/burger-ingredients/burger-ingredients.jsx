@@ -1,23 +1,13 @@
 import React, { useState, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
+
 import burgerIngredientsStyle from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerCategory } from "./burger-category/burger-category";
-// import { burgerIngredientPropTypes } from "../../utils/types";
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "./ingredient-details/ingredient-details";
-
-import { useDispatch, useSelector } from "react-redux";
-
-import {
-  ADD_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT,
-} from "../../services/current-ingredient/actions";
+import { useSelector } from "react-redux";
 
 const BurgerIngredients = () => {
   const { INGREDIENTS_DATA } = useSelector((store) => store.ingredients);
-  const { currentIngredient } = useSelector((store) => store.currentIngredient);
-  const dispatch = useDispatch();
+
   const [currentCategory, setCurrentCategory] = useState("bun");
 
   const tabRef = useRef(null);
@@ -60,14 +50,6 @@ const BurgerIngredients = () => {
       },
     }
   );
-
-  const openCard = (item) => {
-    dispatch({ type: ADD_CURRENT_INGREDIENT, payload: item });
-  };
-
-  const closeCard = () => {
-    dispatch({ type: DELETE_CURRENT_INGREDIENT });
-  };
 
   const scrollCategory = () => {
     const bottomTab = tabRef.current.getBoundingClientRect().bottom;
@@ -129,23 +111,11 @@ const BurgerIngredients = () => {
         onScroll={scrollCategory}
       >
         {Object.values(ingredientsForCategory).map((item) => (
-          <BurgerCategory
-            key={item.idCategory}
-            ingredients={item}
-            openCard={openCard}
-          />
+          <BurgerCategory key={item.idCategory} ingredients={item} />
         ))}
       </div>
-
-      {currentIngredient && (
-        <Modal title={"Детали ингредиента"} closeModal={closeCard}>
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
     </div>
   );
 };
-
-// BurgerIngredients.propTypes = burgerIngredientPropTypes;
 
 export { BurgerIngredients };

@@ -1,0 +1,25 @@
+.content {
+  width: 480px;
+  margin: auto;
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+}
+
+.additional_actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.link {
+  text-decoration: none;
+}

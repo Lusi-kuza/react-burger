@@ -1,0 +1,13 @@
+.form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: end;
+  composes: mt-30 from global;
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+}
