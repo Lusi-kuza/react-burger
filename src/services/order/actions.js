@@ -1,4 +1,4 @@
-import { sendRequest } from "../../utils/burger-api";
+import { getOrderRequest } from "../../utils/burger-api";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
@@ -10,15 +10,7 @@ export const getOrder = (dataSend) => {
     dispatch({
       type: GET_ORDER_REQUEST,
     });
-    sendRequest("/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
-        ingredients: dataSend,
-      }),
-    })
+    getOrderRequest(dataSend)
       .then((data) =>
         dispatch({
           type: GET_ORDER_SUCCESS,

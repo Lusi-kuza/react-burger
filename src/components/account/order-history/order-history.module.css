@@ -1,0 +1,3 @@
+.order {
+  composes: mt-30 text_type_main-large text_color_inactive from global;
+}

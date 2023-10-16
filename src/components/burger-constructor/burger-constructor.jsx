@@ -16,6 +16,8 @@ import { RESET_ORDER, getOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
 import { IngredientList } from "./ingredient-list/ingredient-list";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Preloader } from "../preloader/preloader";
 
 const BurgerConstructor = () => {
   const { bun, ingredient } = useSelector(
@@ -25,8 +27,11 @@ const BurgerConstructor = () => {
   const { isLoading, hasError, orderNumber } = useSelector(
     (store) => store.order
   );
+  const user = useSelector((store) => store.form.user);
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   let totalPrice =
     (bun ? bun.price * 2 : 0) +
@@ -35,6 +40,7 @@ const BurgerConstructor = () => {
   let finalIngredients = () => [bun._id, ...ingredient.map((el) => el._id)];
 
   const makeOrder = () => {
+    if (!user) return navigate("/login", { state: { from: location } });
     dispatch(getOrder(finalIngredients()));
   };
 
@@ -144,6 +150,7 @@ const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
+      {isLoading && <Preloader />}
       {!isLoading && !hasError && orderNumber && (
         <Modal title={""} closeModal={resetOrder}>
           <OrderDetails order={orderNumber} />

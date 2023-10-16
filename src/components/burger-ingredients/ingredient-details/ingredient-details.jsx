@@ -1,9 +1,15 @@
 import React from "react";
 
 import ingredientDetailsStyles from "./ingredient-details.module.css";
-import { burgerCardPropTypes } from "../../../utils/types";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const { INGREDIENTS_DATA } = useSelector((store) => store.ingredients);
+  const { ingredientId } = useParams();
+
+  const ingredient = INGREDIENTS_DATA.find((el) => el._id === ingredientId);
+
   return (
     <div className={ingredientDetailsStyles.card}>
       <img
@@ -49,7 +55,5 @@ const IngredientDetails = ({ ingredient }) => {
     </div>
   );
 };
-
-IngredientDetails.propTypes = burgerCardPropTypes;
 
 export { IngredientDetails };

@@ -5,7 +5,7 @@ import { burgerCategoryPropTypes } from "../../../utils/types";
 import { useSelector } from "react-redux";
 
 const BurgerCategory = React.memo(
-  ({ ingredients, openCard }) => {
+  ({ ingredients }) => {
     const { bun, ingredient } = useSelector(
       (store) => store.constructorIngredients
     );
@@ -36,11 +36,7 @@ const BurgerCategory = React.memo(
           </h2>
           <ul className={`${burgerCategoryStyle.list} pl-4 `}>
             {ingredients.products.map((item) => (
-              <li
-                key={item._id}
-                className={burgerCategoryStyle.item}
-                onClick={() => openCard(item)}
-              >
+              <li key={item._id} className={burgerCategoryStyle.item}>
                 <BurgerCard
                   ingredient={item}
                   count={
