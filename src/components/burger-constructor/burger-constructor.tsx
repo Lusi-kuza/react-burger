@@ -15,19 +15,36 @@ import {
 import { RESET_ORDER, getOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
-import { IngredientList } from "./ingredient-list/ingredient-list";
+import {
+  IngredientList,
+  TBurgerConstructorProducts,
+} from "./ingredient-list/ingredient-list";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
+import { TDragObject } from "../burger-ingredients/burger-category/burger-card/burger-card";
 
-const BurgerConstructor = () => {
+type TDropCollectedPropsBun = {
+  isHoverBun: boolean;
+};
+
+type TDropCollectedPropsFilling = {
+  isHoverFilling: boolean;
+};
+
+const BurgerConstructor = (): JSX.Element => {
   const { bun, ingredient } = useSelector(
+    //@ts-ignore
     (store) => store.constructorIngredients
   );
 
   const { isLoading, hasError, orderNumber } = useSelector(
+    //@ts-ignore
     (store) => store.order
   );
-  const user = useSelector((store) => store.form.user);
+  const user = useSelector(
+    //@ts-ignore
+    (store) => store.form.user
+  );
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -35,12 +52,21 @@ const BurgerConstructor = () => {
 
   let totalPrice =
     (bun ? bun.price * 2 : 0) +
-    (ingredient.length ? ingredient.reduce((sum, el) => sum + el.price, 0) : 0);
+    (ingredient.length
+      ? ingredient.reduce(
+          (sum: number, el: TBurgerConstructorProducts) => sum + el.price,
+          0
+        )
+      : 0);
 
-  let finalIngredients = () => [bun._id, ...ingredient.map((el) => el._id)];
+  let finalIngredients = (): Array<string> => [
+    bun._id,
+    ...ingredient.map((el: TBurgerConstructorProducts) => el._id),
+  ];
 
   const makeOrder = () => {
     if (!user) return navigate("/login", { state: { from: location } });
+    //@ts-ignore
     dispatch(getOrder(finalIngredients()));
   };
 
@@ -51,7 +77,11 @@ const BurgerConstructor = () => {
     dispatch({ type: DELETE_ALL_INGREDIENT });
   };
 
-  const [{ isHoverBun }, bunDropTarget] = useDrop({
+  const [{ isHoverBun }, bunDropTarget] = useDrop<
+    TDragObject,
+    unknown,
+    TDropCollectedPropsBun
+  >({
     accept: "bun",
     drop(item) {
       dispatch({ type: ADD_BUN, payload: item.ingredient });
@@ -61,7 +91,11 @@ const BurgerConstructor = () => {
     }),
   });
 
-  const [{ isHoverFilling }, fillingDropTarget] = useDrop({
+  const [{ isHoverFilling }, fillingDropTarget] = useDrop<
+    TDragObject,
+    unknown,
+    TDropCollectedPropsFilling
+  >({
     accept: "filling",
     drop(item) {
       dispatch({
@@ -109,7 +143,7 @@ const BurgerConstructor = () => {
             className={`${burgerConstructorStyle.insides}  ${borderColorFilling} custom-scroll`}
             ref={fillingDropTarget}
           >
-            {ingredient.map((el, ind) => (
+            {ingredient.map((el: TBurgerConstructorProducts, ind: number) => (
               <IngredientList key={el.id_for_key} product={el} index={ind} />
             ))}
           </ul>

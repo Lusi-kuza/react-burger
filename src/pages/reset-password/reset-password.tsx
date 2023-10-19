@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent } from "react";
 import resetPasswordStyle from "./reset-password.module.css";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/password-input";
 import { AuthForm } from "../../components/account/auth-form/auth-form";
@@ -7,10 +7,11 @@ import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/form/actions";
 
-const ResetPasswordPage = () => {
+const ResetPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const isPasswordReceived = useSelector(
+    //@ts-ignore
     (store) => store.form.isPasswordReceived
   );
 
@@ -19,12 +20,13 @@ const ResetPasswordPage = () => {
     token: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
-  const submitForm = (e) => {
+  const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(resetPassword(formValue));
   };
 

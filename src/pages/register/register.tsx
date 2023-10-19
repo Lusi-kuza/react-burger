@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import registerPageStyle from "./register.module.css";
 import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/email-input";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/password-input";
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { registerUser } from "../../services/form/actions";
 import { useDispatch } from "react-redux";
 
-const RegisterPage = () => {
+const RegisterPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
@@ -17,12 +17,13 @@ const RegisterPage = () => {
     name: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
-  const submitForm = (e) => {
+  const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(registerUser(formValue));
   };
 

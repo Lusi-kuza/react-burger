@@ -2,9 +2,29 @@ import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
 
-const Protected = ({ onlyUnAuthUser = false, check = false, component }) => {
-  const isAuthChecked = useSelector((store) => store.form.isAuthChecked);
-  const user = useSelector((store) => store.form.user);
+type TOnlyUnAuthUserProps = {
+  component: JSX.Element;
+};
+
+type TProtectedProps = TOnlyUnAuthUserProps & {
+  onlyUnAuthUser?: boolean;
+  check?: boolean;
+};
+
+const Protected = ({
+  onlyUnAuthUser = false,
+  check = false,
+  component,
+}: TProtectedProps): JSX.Element => {
+  const isAuthChecked = useSelector(
+    //@ts-ignore
+    (store) => store.form.isAuthChecked
+  );
+
+  const user = useSelector(
+    //@ts-ignore
+    (store) => store.form.user
+  );
 
   const location = useLocation();
 
@@ -34,9 +54,11 @@ const Protected = ({ onlyUnAuthUser = false, check = false, component }) => {
 };
 
 export const OnlyAuthUser = Protected;
-export const OnlyUnAuthUser = ({ component }) => {
+export const OnlyUnAuthUser = ({ component }: TOnlyUnAuthUserProps) => {
   return <Protected onlyUnAuthUser={true} component={component} />;
 };
-export const OnlyUnAuthUserWithCheck = ({ component }) => {
+export const OnlyUnAuthUserWithCheck = ({
+  component,
+}: TOnlyUnAuthUserProps) => {
   return <Protected onlyUnAuthUser={true} component={component} check={true} />;
 };

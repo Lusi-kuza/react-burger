@@ -1,10 +1,29 @@
+import {
+  TForm,
+  TOrder,
+  TRefreshToken,
+  TRegister,
+  TReset,
+  TResponse,
+  TUserInfo,
+} from "./types";
+
+interface TOptions extends RequestInit {
+  headers: HeadersInit & {
+    authorization?: string;
+  };
+}
+
 const mainUrl = "https://norma.nomoreparties.space/api";
 
-const checkResponse = (res) => {
+const checkResponse = (res: Response): Promise<any> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const refreshTokenRequest = () => {
+export const sendRequest = (url: string, options: TOptions): Promise<any> =>
+  fetch(`${mainUrl}${url}`, options).then(checkResponse);
+
+const refreshTokenRequest = (): Promise<TRefreshToken> => {
   return sendRequest("/auth/token", {
     method: "POST",
     headers: {
@@ -16,11 +35,14 @@ const refreshTokenRequest = () => {
   });
 };
 
-const fetchWithRefresh = async (url, options) => {
+const fetchWithRefresh = async (
+  url: string,
+  options: TOptions
+): Promise<any> => {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
-  } catch (err) {
+  } catch (err: any) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshTokenRequest();
       if (!refreshData.success) {
@@ -37,13 +59,12 @@ const fetchWithRefresh = async (url, options) => {
   }
 };
 
-export const sendRequestFetchWithRefresh = (url, options) =>
-  fetchWithRefresh(`${mainUrl}${url}`, options);
+export const sendRequestFetchWithRefresh = (
+  url: string,
+  options: TOptions
+): Promise<any> => fetchWithRefresh(`${mainUrl}${url}`, options);
 
-export const sendRequest = (url, options) =>
-  fetch(`${mainUrl}${url}`, options).then(checkResponse);
-
-export const registerRequest = (form) => {
+export const registerRequest = (form: TForm): Promise<TRegister> => {
   return sendRequest("/auth/register", {
     method: "POST",
     headers: {
@@ -57,7 +78,7 @@ export const registerRequest = (form) => {
   });
 };
 
-export const loginRequest = (form) => {
+export const loginRequest = (form: Omit<TForm, "name">): Promise<TRegister> => {
   return sendRequest("/auth/login", {
     method: "POST",
     headers: {
@@ -70,7 +91,7 @@ export const loginRequest = (form) => {
   });
 };
 
-export const logoutRequest = () => {
+export const logoutRequest = (): Promise<TResponse> => {
   return sendRequest("/auth/logout", {
     method: "POST",
     headers: {
@@ -82,7 +103,9 @@ export const logoutRequest = () => {
   });
 };
 
-export const getPasswordRequest = (form) => {
+export const getPasswordRequest = (
+  form: Pick<TForm, "email">
+): Promise<TResponse> => {
   return sendRequest("/password-reset", {
     method: "POST",
     headers: {
@@ -94,7 +117,7 @@ export const getPasswordRequest = (form) => {
   });
 };
 
-export const resetPasswordRequest = (form) => {
+export const resetPasswordRequest = (form: TReset): Promise<TResponse> => {
   return sendRequest("/password-reset/reset", {
     method: "POST",
     headers: {
@@ -107,22 +130,22 @@ export const resetPasswordRequest = (form) => {
   });
 };
 
-export const getUserInfoRequest = () => {
+export const getUserInfoRequest = (): Promise<TUserInfo> => {
   return sendRequestFetchWithRefresh("/auth/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
-      authorization: localStorage.getItem("accessToken"),
+      authorization: localStorage.getItem("accessToken") || "",
     },
   });
 };
 
-export const updateUserInfoRequest = (form) => {
+export const updateUserInfoRequest = (form: TForm): Promise<TUserInfo> => {
   return sendRequestFetchWithRefresh("/auth/user", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
-      authorization: localStorage.getItem("accessToken"),
+      authorization: localStorage.getItem("accessToken") || "",
     },
     body: JSON.stringify({
       email: form.email,
@@ -132,12 +155,12 @@ export const updateUserInfoRequest = (form) => {
   });
 };
 
-export const getOrderRequest = (dataSend) => {
+export const getOrderRequest = (dataSend: Array<string>): Promise<TOrder> => {
   return sendRequestFetchWithRefresh("/orders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
-      authorization: localStorage.getItem("accessToken"),
+      authorization: localStorage.getItem("accessToken") || "",
     },
     body: JSON.stringify({
       ingredients: dataSend,

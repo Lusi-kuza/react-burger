@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import loginPageStyle from "./login.module.css";
 import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/email-input";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/password-input";
@@ -7,23 +7,27 @@ import { Link, Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../services/form/actions";
 
-const LoginPage = () => {
+const LoginPage = (): JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const user = useSelector((store) => store.form.user);
+  const user = useSelector(
+    //@ts-ignore
+    (store) => store.form.user
+  );
 
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
-  const submitForm = (e) => {
+  const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(loginUser(formValue));
   };
 

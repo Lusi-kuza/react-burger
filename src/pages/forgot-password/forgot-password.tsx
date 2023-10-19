@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import forgotPasswordStyle from "./forgot-password.module.css";
 import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/email-input";
 import { AuthForm } from "../../components/account/auth-form/auth-form";
@@ -6,11 +6,12 @@ import { Link, Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPassword } from "../../services/form/actions";
 
-const ForgotPasswordPage = () => {
+const ForgotPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation();
 
   const isPasswordReceived = useSelector(
+    //@ts-ignore
     (store) => store.form.isPasswordReceived
   );
 
@@ -18,12 +19,13 @@ const ForgotPasswordPage = () => {
     email: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValue({ email: e.target.value });
   };
 
-  const submitForm = (e) => {
+  const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(getPassword(formValue));
   };
 

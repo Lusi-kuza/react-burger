@@ -2,65 +2,79 @@ import React, { useState, useRef } from "react";
 
 import burgerIngredientsStyle from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { BurgerCategory } from "./burger-category/burger-category";
+import {
+  BurgerCategory,
+  TBurgerCategory,
+} from "./burger-category/burger-category";
 import { useSelector } from "react-redux";
+import { TBurgerProducts } from "../../utils/types";
 
-const BurgerIngredients = () => {
-  const { INGREDIENTS_DATA } = useSelector((store) => store.ingredients);
+type TIngredientsForCategory = {
+  bun: TBurgerCategory;
+  sauce: TBurgerCategory;
+  main: TBurgerCategory;
+};
+
+const BurgerIngredients = (): JSX.Element => {
+  const { INGREDIENTS_DATA } = useSelector(
+    //@ts-ignore
+    (store) => store.ingredients
+  );
 
   const [currentCategory, setCurrentCategory] = useState("bun");
 
-  const tabRef = useRef(null);
+  const tabRef = useRef<HTMLDivElement | null>(null);
 
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+  const bunRef = useRef<HTMLDivElement | null>(null);
+  const sauceRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
 
-  const ingredientsForCategory = INGREDIENTS_DATA.reduce(
-    (obj, item) => {
-      if (item.type === "bun") {
-        obj.bun.products.push(item);
-      }
-      if (item.type === "main") {
-        obj.main.products.push(item);
-      }
-      if (item.type === "sauce") {
-        obj.sauce.products.push(item);
-      }
-      return obj;
-    },
-    {
-      bun: {
-        idCategory: 1,
-        nameCategory: "Булки",
-        products: [],
-        categoryRef: bunRef,
+  const ingredientsForCategory: TIngredientsForCategory =
+    INGREDIENTS_DATA.reduce(
+      (obj: TIngredientsForCategory, item: TBurgerProducts) => {
+        if (item.type === "bun") {
+          obj.bun.products.push(item);
+        }
+        if (item.type === "main") {
+          obj.main.products.push(item);
+        }
+        if (item.type === "sauce") {
+          obj.sauce.products.push(item);
+        }
+        return obj;
       },
-      sauce: {
-        idCategory: 2,
-        nameCategory: "Соусы",
-        products: [],
-        categoryRef: sauceRef,
-      },
-      main: {
-        idCategory: 3,
-        nameCategory: "Начинки",
-        products: [],
-        categoryRef: mainRef,
-      },
-    }
-  );
+      {
+        bun: {
+          idCategory: 1,
+          nameCategory: "Булки",
+          products: [],
+          categoryRef: bunRef,
+        },
+        sauce: {
+          idCategory: 2,
+          nameCategory: "Соусы",
+          products: [],
+          categoryRef: sauceRef,
+        },
+        main: {
+          idCategory: 3,
+          nameCategory: "Начинки",
+          products: [],
+          categoryRef: mainRef,
+        },
+      }
+    );
 
   const scrollCategory = () => {
-    const bottomTab = tabRef.current.getBoundingClientRect().bottom;
+    const bottomTab = tabRef.current!.getBoundingClientRect().bottom;
     const spaceBun = Math.abs(
-      bottomTab - bunRef.current.getBoundingClientRect().top
+      bottomTab - bunRef.current!.getBoundingClientRect().top
     );
     const spaceSauce = Math.abs(
-      bottomTab - sauceRef.current.getBoundingClientRect().top
+      bottomTab - sauceRef.current!.getBoundingClientRect().top
     );
     const spaceMain = Math.abs(
-      bottomTab - mainRef.current.getBoundingClientRect().top
+      bottomTab - mainRef.current!.getBoundingClientRect().top
     );
 
     switch (Math.min(spaceBun, spaceSauce, spaceMain)) {

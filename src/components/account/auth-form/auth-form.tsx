@@ -1,9 +1,20 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import authFormStyle from "./auth-form.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/button";
-import { authFormPropTypes } from "../../../utils/types";
 
-const AuthForm = ({ titleForm, titleButton, children, submitForm }) => {
+type TAuthFormProps = {
+  titleForm: string;
+  titleButton: string;
+  children: JSX.Element | Array<JSX.Element>;
+  submitForm: (e: SyntheticEvent) => void;
+};
+
+const AuthForm = ({
+  titleForm,
+  titleButton,
+  children,
+  submitForm,
+}: TAuthFormProps): JSX.Element => {
   return (
     <form className={`${authFormStyle.form} `} onSubmit={(e) => submitForm(e)}>
       <p className="text_type_main-medium">{titleForm}</p>
@@ -14,7 +25,5 @@ const AuthForm = ({ titleForm, titleButton, children, submitForm }) => {
     </form>
   );
 };
-
-AuthForm.propTypes = authFormPropTypes;
 
 export { AuthForm };
