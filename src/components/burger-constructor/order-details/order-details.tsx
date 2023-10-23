@@ -2,9 +2,12 @@ import React from "react";
 
 import orderDetailsStyles from "./order-details.module.css";
 import logo from "../../../images/graphics.svg";
-import { orderDetailsPropTypes } from "../../../utils/types";
 
-const OrderDetails = ({ order }) => {
+type TOrderDetailsProps = {
+  order: number;
+};
+
+const OrderDetails = ({ order }: TOrderDetailsProps): JSX.Element => {
   return (
     <div className={orderDetailsStyles.order}>
       <p
@@ -25,7 +28,5 @@ const OrderDetails = ({ order }) => {
     </div>
   );
 };
-
-OrderDetails.propTypes = orderDetailsPropTypes;
 
 export { OrderDetails };

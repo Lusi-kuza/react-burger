@@ -1,12 +1,25 @@
 import React, { useMemo } from "react";
 import burgerCategoryStyle from "./burger-category.module.css";
 import { BurgerCard } from "./burger-card/burger-card";
-import { burgerCategoryPropTypes } from "../../../utils/types";
 import { useSelector } from "react-redux";
+import { TBurgerConstructorProducts } from "../../burger-constructor/ingredient-list/ingredient-list";
+import { TBurgerProducts } from "../../../utils/types";
+
+export type TBurgerCategory = {
+  idCategory: number;
+  nameCategory: string;
+  products: Array<TBurgerProducts>;
+  categoryRef: { current: HTMLDivElement | null };
+};
+
+type TBurgerCategoryProps = {
+  ingredients: TBurgerCategory;
+};
 
 const BurgerCategory = React.memo(
-  ({ ingredients }) => {
+  ({ ingredients }: TBurgerCategoryProps): JSX.Element => {
     const { bun, ingredient } = useSelector(
+      //@ts-ignore
       (store) => store.constructorIngredients
     );
 
@@ -18,15 +31,16 @@ const BurgerCategory = React.memo(
         };
       }
       let countI = ingredient.reduce(
-        (res, el) =>
+        (res: { [key: string]: number }, el: TBurgerConstructorProducts) =>
           Object.keys(res).includes(el._id)
             ? { ...res, [el._id]: ++res[el._id] }
             : { ...res, [el._id]: 1 },
         {}
       );
+
       count = { ...count, ...countI };
       return count;
-    }, [bun, ingredient]);
+    }, [bun, ingredient, ingredients.idCategory]);
 
     return (
       <div>
@@ -54,12 +68,13 @@ const BurgerCategory = React.memo(
     );
   },
   (prevProp, nextProp) => {
-    if (prevProp.ingredients.length === nextProp.ingredients.length)
+    if (
+      prevProp.ingredients.products.length ===
+      nextProp.ingredients.products.length
+    )
       return true;
     return false;
   }
 );
-
-BurgerCategory.propTypes = burgerCategoryPropTypes;
 
 export { BurgerCategory };

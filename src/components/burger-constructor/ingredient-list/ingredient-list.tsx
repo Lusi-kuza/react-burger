@@ -8,16 +8,35 @@ import {
 } from "../../../services/constructor-Ingredients/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
-import { IngredientListPropTypes } from "../../../utils/types";
+import { TBurgerProducts } from "../../../utils/types";
 
-const IngredientList = ({ product, index }) => {
-  const { bun, ingredient } = useSelector(
-    (store) => store.constructorIngredients
+export type TBurgerConstructorProducts = TBurgerProducts & {
+  id_for_key: string;
+};
+
+type TIngredientListProps = {
+  product: TBurgerConstructorProducts;
+  index: number;
+};
+
+type TDragObjIngredient = Omit<TIngredientListProps, "product">;
+
+type TDragCollectedPropsIngredient = {
+  opacity: number;
+};
+
+const IngredientList = ({
+  product,
+  index,
+}: TIngredientListProps): JSX.Element => {
+  const ingredient = useSelector(
+    //@ts-ignore
+    (store) => store.constructorIngredients.ingredient
   );
 
   const dispatch = useDispatch();
 
-  const deleteIngredient = (elem) => {
+  const deleteIngredient = (elem: TBurgerConstructorProducts) => {
     dispatch({
       type: DELETE_INGREDIENT,
       payload: elem,
@@ -25,7 +44,7 @@ const IngredientList = ({ product, index }) => {
   };
 
   const moveIngredient = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       dispatch({
         type: MOVE_INGREDIENT,
         payload: {
@@ -37,9 +56,13 @@ const IngredientList = ({ product, index }) => {
     [ingredient]
   );
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement | null>(null);
 
-  const [{ opacity }, fillingBurgerDragRef] = useDrag({
+  const [{ opacity }, fillingBurgerDragRef] = useDrag<
+    TDragObjIngredient,
+    unknown,
+    TDragCollectedPropsIngredient
+  >({
     type: "fillingBurger",
     item: { index },
     collect: (monitor) => ({
@@ -47,7 +70,7 @@ const IngredientList = ({ product, index }) => {
     }),
   });
 
-  const [, fillingBurgerDropRef] = useDrop({
+  const [, fillingBurgerDropRef] = useDrop<TDragObjIngredient>({
     accept: "fillingBurger",
 
     hover(item, monitor) {
@@ -65,7 +88,7 @@ const IngredientList = ({ product, index }) => {
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
+      const hoverActualY = monitor.getClientOffset()!.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
 
@@ -76,14 +99,10 @@ const IngredientList = ({ product, index }) => {
     },
   });
 
-  const dragDropRef = fillingBurgerDragRef(fillingBurgerDropRef(ref));
+  fillingBurgerDragRef(fillingBurgerDropRef(ref));
 
   return (
-    <li
-      className={ingredientListStyle.item}
-      ref={dragDropRef}
-      style={{ opacity }}
-    >
+    <li className={ingredientListStyle.item} ref={ref} style={{ opacity }}>
       <DragIcon type="primary" />
       <ConstructorElement
         text={product.name}
@@ -94,7 +113,5 @@ const IngredientList = ({ product, index }) => {
     </li>
   );
 };
-
-IngredientList.propTypes = IngredientListPropTypes;
 
 export { IngredientList };

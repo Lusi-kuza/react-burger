@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent } from "react";
 import profileFormStyle from "./profile-form.module.css";
 import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/email-input";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/password-input";
@@ -6,20 +6,25 @@ import { Input } from "@ya.praktikum/react-developer-burger-ui-components/dist/u
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfo } from "../../../services/form/actions";
+import { TForm } from "../../../utils/types";
 
-const ProfileForm = () => {
+const ProfileForm = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { email, name } = useSelector((store) => store.form.user);
+  const { email, name } = useSelector(
+    //@ts-ignore
+    (store) => store.form.user
+  );
+
   const initialFormValue = {
     email: email,
     password: "",
     name: name,
   };
 
-  const [formValue, setFormValue] = useState(initialFormValue);
+  const [formValue, setFormValue] = useState<TForm>(initialFormValue);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
@@ -27,8 +32,9 @@ const ProfileForm = () => {
     setFormValue(initialFormValue);
   };
 
-  const submitForm = (e) => {
+  const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(updateUserInfo(formValue));
   };
 

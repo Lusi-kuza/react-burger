@@ -1,20 +1,25 @@
 import React from "react";
-
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/counter";
-
 import burgerCardStyle from "./burger-card.module.css";
 import { BurgerPrice } from "../../../burger-price/burger-price";
-import { burgerCardPropTypes } from "../../../../utils/types";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
+import { TBurgerProducts } from "../../../../utils/types";
 
-const BurgerCard = ({ ingredient, count }) => {
-  const [, bunDragRef] = useDrag({
+type TBurgerCardProps = {
+  ingredient: TBurgerProducts;
+  count: number | null;
+};
+
+export type TDragObject = Omit<TBurgerCardProps, "count">;
+
+const BurgerCard = ({ ingredient, count }: TBurgerCardProps): JSX.Element => {
+  const [, bunDragRef] = useDrag<TDragObject, unknown, unknown>({
     type: "bun",
     item: { ingredient },
   });
 
-  const [, fillingDragRef] = useDrag({
+  const [, fillingDragRef] = useDrag<TDragObject, unknown, unknown>({
     type: "filling",
     item: { ingredient },
   });
@@ -49,7 +54,5 @@ const BurgerCard = ({ ingredient, count }) => {
     </Link>
   );
 };
-
-BurgerCard.propTypes = burgerCardPropTypes;
 
 export { BurgerCard };

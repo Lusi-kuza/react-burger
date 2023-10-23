@@ -25,8 +25,9 @@ import {
 } from "../protected-route/protected-route";
 import { Preloader } from "../preloader/preloader";
 
-const App = () => {
+const App = (): JSX.Element => {
   const { isLoading, hasError, INGREDIENTS_DATA } = useSelector(
+    //@ts-ignore
     (store) => store.ingredients
   );
 
@@ -36,10 +37,12 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(getIngredients());
   }, [dispatch]);
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(checkUserAuth());
   }, [dispatch]);
 

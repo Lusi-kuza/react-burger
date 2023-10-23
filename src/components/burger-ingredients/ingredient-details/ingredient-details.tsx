@@ -3,12 +3,18 @@ import React from "react";
 import ingredientDetailsStyles from "./ingredient-details.module.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { TBurgerProducts } from "../../../utils/types";
 
-const IngredientDetails = () => {
-  const { INGREDIENTS_DATA } = useSelector((store) => store.ingredients);
+const IngredientDetails = (): JSX.Element => {
+  const { INGREDIENTS_DATA } = useSelector(
+    //@ts-ignore
+    (store) => store.ingredients
+  );
   const { ingredientId } = useParams();
 
-  const ingredient = INGREDIENTS_DATA.find((el) => el._id === ingredientId);
+  const ingredient = INGREDIENTS_DATA.find(
+    (el: TBurgerProducts) => el._id === ingredientId
+  );
 
   return (
     <div className={ingredientDetailsStyles.card}>
