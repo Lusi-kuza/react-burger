@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useEffect } from "react";
 import profilePageStyle from "./profile-page.module.css";
 import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
 import { getUserInfo, logoutUser } from "../../services/form/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/reducer";
 
 const ProfilePage = (): JSX.Element => {
   const location = useLocation();
@@ -17,17 +17,12 @@ const ProfilePage = (): JSX.Element => {
 
   const logoutProfile = (e: SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(logoutUser());
   };
 
-  const user = useSelector(
-    //@ts-ignore
-    (store) => store.form.user
-  );
+  const user = useSelector((store) => store.form.user);
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(getUserInfo());
   }, [dispatch]);
 

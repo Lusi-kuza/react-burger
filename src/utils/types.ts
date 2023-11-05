@@ -33,6 +33,8 @@ export type TReset = {
   token: string;
 };
 
+export type TIngredientsRef = HTMLDivElement | null;
+
 export type TBurgerProducts = {
   _id: string;
   name: string;
@@ -46,6 +48,17 @@ export type TBurgerProducts = {
   image_mobile: string;
   image_large: string;
   __v: number;
+};
+
+export type TBurgerConstructorProducts = TBurgerProducts & {
+  id_for_key: string;
+};
+
+export type TBurgerCategory = {
+  idCategory: number;
+  nameCategory: string;
+  products: Array<TBurgerProducts>;
+  categoryRef: { current: TIngredientsRef };
 };
 
 export type TOrder = {
@@ -68,3 +81,43 @@ export type TOrder = {
     price: number;
   };
 };
+
+export type TOrderCard = {
+  ingredients: Array<string>;
+  _id: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  name: string;
+};
+
+export type TOrderInfo = {
+  success: boolean;
+  orders: [
+    {
+      ingredients: Array<string>;
+      _id: string;
+      status: string;
+      createdAt: string;
+      updatedAt: string;
+      number: number;
+      name: string;
+      owner: string;
+      __v: number;
+    }
+  ];
+};
+
+export type TAllOrder = {
+  success: boolean;
+  orders: Array<TOrderCard>;
+  total: number;
+  totalToday: number;
+};
+
+export enum WebsocketStatus {
+  CONNECTING = "CONNECTING",
+  ONLINE = "ONLINE",
+  OFFLINE = "OFFLINE",
+}

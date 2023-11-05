@@ -6,13 +6,10 @@ import {
   DELETE_INGREDIENT,
   MOVE_INGREDIENT,
 } from "../../../services/constructor-Ingredients/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
-import { TBurgerProducts } from "../../../utils/types";
 
-export type TBurgerConstructorProducts = TBurgerProducts & {
-  id_for_key: string;
-};
+import { useDrag, useDrop } from "react-dnd";
+import { TBurgerConstructorProducts } from "../../../utils/types";
+import { useDispatch, useSelector } from "../../../services/reducer";
 
 type TIngredientListProps = {
   product: TBurgerConstructorProducts;
@@ -30,7 +27,6 @@ const IngredientList = ({
   index,
 }: TIngredientListProps): JSX.Element => {
   const ingredient = useSelector(
-    //@ts-ignore
     (store) => store.constructorIngredients.ingredient
   );
 

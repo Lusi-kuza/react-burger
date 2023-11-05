@@ -6,22 +6,21 @@ import burgerConstructorStyle from "./burger-constructor.module.css";
 import { BurgerPrice } from "../burger-price/burger-price";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "./order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
+
 import {
   ADD_BUN,
   ADD_INGREDIENT,
-  DELETE_ALL_INGREDIENT,
+  DELETE_ALL_INGREDIENTS,
 } from "../../services/constructor-Ingredients/actions";
 import { RESET_ORDER, getOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
-import {
-  IngredientList,
-  TBurgerConstructorProducts,
-} from "./ingredient-list/ingredient-list";
+import { IngredientList } from "./ingredient-list/ingredient-list";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
 import { TDragObject } from "../burger-ingredients/burger-category/burger-card/burger-card";
+import { TBurgerConstructorProducts } from "../../utils/types";
+import { useDispatch, useSelector } from "../../services/reducer";
 
 type TDropCollectedPropsBun = {
   isHoverBun: boolean;
@@ -33,40 +32,36 @@ type TDropCollectedPropsFilling = {
 
 const BurgerConstructor = (): JSX.Element => {
   const { bun, ingredient } = useSelector(
-    //@ts-ignore
     (store) => store.constructorIngredients
   );
 
   const { isLoading, hasError, orderNumber } = useSelector(
-    //@ts-ignore
     (store) => store.order
   );
-  const user = useSelector(
-    //@ts-ignore
-    (store) => store.form.user
-  );
+  const user = useSelector((store) => store.form.user);
 
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  let totalPrice =
-    (bun ? bun.price * 2 : 0) +
-    (ingredient.length
-      ? ingredient.reduce(
-          (sum: number, el: TBurgerConstructorProducts) => sum + el.price,
-          0
-        )
-      : 0);
+  const bunPrice = bun ? bun.price * 2 : 0;
+  const ingredientPrice: number = ingredient.reduce(
+    (sum: number, el: TBurgerConstructorProducts) => {
+      sum = sum + el.price;
+      return sum;
+    },
+    0
+  );
+
+  let totalPrice = bunPrice + ingredientPrice;
 
   let finalIngredients = (): Array<string> => [
-    bun._id,
+    bun?._id || "",
     ...ingredient.map((el: TBurgerConstructorProducts) => el._id),
   ];
 
   const makeOrder = () => {
     if (!user) return navigate("/login", { state: { from: location } });
-    //@ts-ignore
     dispatch(getOrder(finalIngredients()));
   };
 
@@ -74,7 +69,7 @@ const BurgerConstructor = (): JSX.Element => {
     dispatch({
       type: RESET_ORDER,
     });
-    dispatch({ type: DELETE_ALL_INGREDIENT });
+    dispatch({ type: DELETE_ALL_INGREDIENTS });
   };
 
   const [{ isHoverBun }, bunDropTarget] = useDrop<
@@ -186,7 +181,7 @@ const BurgerConstructor = (): JSX.Element => {
       </div>
       {isLoading && <Preloader />}
       {!isLoading && !hasError && orderNumber && (
-        <Modal title={""} closeModal={resetOrder}>
+        <Modal closeModal={resetOrder}>
           <OrderDetails order={orderNumber} />
         </Modal>
       )}

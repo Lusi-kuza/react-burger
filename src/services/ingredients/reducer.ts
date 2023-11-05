@@ -1,16 +1,27 @@
+import { TBurgerProducts } from "../../utils/types";
 import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
+  TIngredientsActions,
 } from "./actions";
 
-const initialState = {
+type TIngredientsState = {
+  isLoading: boolean;
+  hasError: boolean;
+  INGREDIENTS_DATA: Array<TBurgerProducts>;
+};
+
+const initialState: TIngredientsState = {
   isLoading: false,
   hasError: false,
   INGREDIENTS_DATA: [],
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (
+  state = initialState,
+  action: TIngredientsActions
+) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST:
       return { ...state, isLoading: true, hasError: false };

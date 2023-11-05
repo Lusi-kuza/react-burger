@@ -4,9 +4,21 @@ import {
   SET_FORM_FAILED,
   SET_FORM_REQUEST,
   SET_USER_SUCCESS,
+  TFormActions,
 } from "./actions";
 
-const initialState = {
+type TFormState = {
+  isLoading: boolean;
+  hasError: boolean;
+  user: {
+    email: string;
+    name: string;
+  } | null;
+  isAuthChecked: boolean;
+  isPasswordReceived: boolean;
+};
+
+const initialState: TFormState = {
   isLoading: false,
   hasError: false,
   user: null,
@@ -14,7 +26,7 @@ const initialState = {
   isPasswordReceived: false,
 };
 
-const formReducer = (state = initialState, action) => {
+const formReducer = (state = initialState, action: TFormActions) => {
   switch (action.type) {
     case SET_AUTH_CHECKED:
       return {

@@ -1,6 +1,7 @@
 import {
   TForm,
   TOrder,
+  TOrderInfo,
   TRefreshToken,
   TRegister,
   TReset,
@@ -15,6 +16,11 @@ interface TOptions extends RequestInit {
 }
 
 const mainUrl = "https://norma.nomoreparties.space/api";
+export const FEED_PAGE_SERVER_URL =
+  "wss://norma.nomoreparties.space/orders/all";
+
+export const FEED_PAGE_PROFILE_SERVER_URL =
+  "wss://norma.nomoreparties.space/orders";
 
 const checkResponse = (res: Response): Promise<any> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -165,5 +171,14 @@ export const getOrderRequest = (dataSend: Array<string>): Promise<TOrder> => {
     body: JSON.stringify({
       ingredients: dataSend,
     }),
+  });
+};
+
+export const getOrderInfo = (url: string): Promise<TOrderInfo> => {
+  return sendRequest(`/orders/${url}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
   });
 };

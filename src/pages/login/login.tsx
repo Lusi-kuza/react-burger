@@ -4,17 +4,15 @@ import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components/d
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/password-input";
 import { AuthForm } from "../../components/account/auth-form/auth-form";
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+
 import { loginUser } from "../../services/form/actions";
+import { useDispatch, useSelector } from "../../services/reducer";
 
 const LoginPage = (): JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const user = useSelector(
-    //@ts-ignore
-    (store) => store.form.user
-  );
+  const user = useSelector((store) => store.form.user);
 
   const [formValue, setFormValue] = useState({
     email: "",
@@ -27,7 +25,6 @@ const LoginPage = (): JSX.Element => {
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(loginUser(formValue));
   };
 

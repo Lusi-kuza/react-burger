@@ -1,16 +1,12 @@
 import React, { useMemo } from "react";
 import burgerCategoryStyle from "./burger-category.module.css";
 import { BurgerCard } from "./burger-card/burger-card";
-import { useSelector } from "react-redux";
-import { TBurgerConstructorProducts } from "../../burger-constructor/ingredient-list/ingredient-list";
-import { TBurgerProducts } from "../../../utils/types";
 
-export type TBurgerCategory = {
-  idCategory: number;
-  nameCategory: string;
-  products: Array<TBurgerProducts>;
-  categoryRef: { current: HTMLDivElement | null };
-};
+import {
+  TBurgerCategory,
+  TBurgerConstructorProducts,
+} from "../../../utils/types";
+import { useSelector } from "../../../services/reducer";
 
 type TBurgerCategoryProps = {
   ingredients: TBurgerCategory;
@@ -19,7 +15,6 @@ type TBurgerCategoryProps = {
 const BurgerCategory = React.memo(
   ({ ingredients }: TBurgerCategoryProps): JSX.Element => {
     const { bun, ingredient } = useSelector(
-      //@ts-ignore
       (store) => store.constructorIngredients
     );
 

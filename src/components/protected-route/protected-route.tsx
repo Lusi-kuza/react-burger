@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
+import { useSelector } from "../../services/reducer";
 
 type TOnlyUnAuthUserProps = {
   component: JSX.Element;
@@ -16,15 +16,9 @@ const Protected = ({
   check = false,
   component,
 }: TProtectedProps): JSX.Element => {
-  const isAuthChecked = useSelector(
-    //@ts-ignore
-    (store) => store.form.isAuthChecked
-  );
+  const isAuthChecked = useSelector((store) => store.form.isAuthChecked);
 
-  const user = useSelector(
-    //@ts-ignore
-    (store) => store.form.user
-  );
+  const user = useSelector((store) => store.form.user);
 
   const location = useLocation();
 

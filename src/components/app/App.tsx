@@ -6,6 +6,7 @@ import {
   HomePage,
   IngredientPage,
   LoginPage,
+  OrderPage,
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
@@ -15,7 +16,7 @@ import { OrderHistory } from "../account/order-history/order-history";
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../burger-ingredients/ingredient-details/ingredient-details";
 import { AppHeader } from "../app-header/app-header";
-import { useDispatch, useSelector } from "react-redux";
+
 import { getIngredients } from "../../services/ingredients/actions";
 import { checkUserAuth } from "../../services/form/actions";
 import {
@@ -24,10 +25,11 @@ import {
   OnlyUnAuthUserWithCheck,
 } from "../protected-route/protected-route";
 import { Preloader } from "../preloader/preloader";
+import { OrderCardDetails } from "../order-card/order-card-details/order-card-details";
+import { useDispatch, useSelector } from "../../services/reducer";
 
 const App = (): JSX.Element => {
   const { isLoading, hasError, INGREDIENTS_DATA } = useSelector(
-    //@ts-ignore
     (store) => store.ingredients
   );
 
@@ -37,12 +39,10 @@ const App = (): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(getIngredients());
   }, [dispatch]);
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(checkUserAuth());
   }, [dispatch]);
 
@@ -64,13 +64,11 @@ const App = (): JSX.Element => {
           <Routes location={background || location}>
             <Route path="/" element={<HomePage />} />
             <Route
-              path="/feed"
-              element={<OnlyAuthUser component={<FeedPage />} />}
-            />
-            <Route
               path="/ingredients/:ingredientId"
               element={<IngredientPage />}
             />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/feed/:orderId" element={<OrderPage />} />
             <Route
               path="/login"
               element={<OnlyUnAuthUser component={<LoginPage />} />}
@@ -88,6 +86,10 @@ const App = (): JSX.Element => {
               element={
                 <OnlyUnAuthUserWithCheck component={<ResetPasswordPage />} />
               }
+            />{" "}
+            <Route
+              path="/profile/orders/:orderId"
+              element={<OnlyAuthUser component={<OrderPage />} />}
             />
             <Route
               path="/profile"
@@ -114,6 +116,23 @@ const App = (): JSX.Element => {
                     closeModal={handleModalClose}
                   >
                     <IngredientDetails />
+                  </Modal>
+                }
+              />
+
+              <Route
+                path="/feed/:orderId"
+                element={
+                  <Modal closeModal={handleModalClose}>
+                    <OrderCardDetails inModal={true} />
+                  </Modal>
+                }
+              />
+              <Route
+                path="/profile/orders/:orderId"
+                element={
+                  <Modal closeModal={handleModalClose}>
+                    <OrderCardDetails inModal={true} />
                   </Modal>
                 }
               />
