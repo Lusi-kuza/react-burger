@@ -14,6 +14,13 @@ type TOrderCardDetailsProps = {
   inModal: boolean;
 };
 
+type TOrderIngredientsInfo = {
+  product: {
+    [id: string]: number;
+  };
+  totalPrice: number;
+};
+
 export const OrderCardDetails = ({
   inModal,
 }: TOrderCardDetailsProps): JSX.Element => {
@@ -37,33 +44,53 @@ export const OrderCardDetails = ({
   useEffect(() => {
     const getOrder = async () => {
       await getOrderInfo(orderId || "").then((data) => {
+        const order = data.orders[0];
         setOrderInfo({
-          ingredients: data.orders[0].ingredients,
-          _id: data.orders[0]._id,
-          status: data.orders[0].status,
-          createdAt: data.orders[0].createdAt,
-          updatedAt: data.orders[0].updatedAt,
-          number: data.orders[0].number,
-          name: data.orders[0].name,
+          ingredients: order.ingredients,
+          _id: order._id,
+          status: order.status,
+          createdAt: order.createdAt,
+          updatedAt: order.updatedAt,
+          number: order.number,
+          name: order.name,
         });
       });
     };
     getOrder();
   }, [orderId]);
 
-  const totalPrice: number =
+  const orderIngredientsInfo: TOrderIngredientsInfo | undefined =
     order?.ingredients.reduce(
-      (sum: number, id: string) =>
-        ingredientsForOrderCard[id].type === "bun"
-          ? sum + 2 * ingredientsForOrderCard[id].price
-          : sum + ingredientsForOrderCard[id].price,
-      0
-    ) || 0;
+      (obj: TOrderIngredientsInfo, id: string) => {
+        if (ingredientsForOrderCard[id].type === "bun") {
+          obj.totalPrice =
+            obj.totalPrice + 2 * ingredientsForOrderCard[id].price;
+          if (obj.product[id]) {
+            obj.product[id] = obj.product[id] + 2;
+          } else {
+            obj.product[id] = 2;
+          }
+        } else {
+          obj.totalPrice = obj.totalPrice + ingredientsForOrderCard[id].price;
+
+          if (obj.product[id]) {
+            obj.product[id] = obj.product[id] + 1;
+          } else {
+            obj.product[id] = 1;
+          }
+        }
+        return obj;
+      },
+      {
+        product: {},
+        totalPrice: 0,
+      }
+    );
 
   return (
     <div className={orderCardDetailsStyles.card}>
       {!order && <Preloader />}
-      {order && (
+      {order && orderIngredientsInfo && (
         <>
           <div
             className={
@@ -88,19 +115,17 @@ export const OrderCardDetails = ({
           </div>
           <p className={orderCardDetailsStyles.title}>Состав:</p>
           <ul className={orderCardDetailsStyles.list}>
-            {order.ingredients.map((el, ind) => (
+            {Object.entries(orderIngredientsInfo.product).map((el, ind) => (
               <li key={ind} className={orderCardDetailsStyles.ingredients}>
-                <IngredientIcon image={ingredientsForOrderCard[el].image} />
+                <IngredientIcon image={ingredientsForOrderCard[el[0]].image} />
                 <p className={orderCardDetailsStyles.name}>
-                  {ingredientsForOrderCard[el].name}
+                  {ingredientsForOrderCard[el[0]].name}
                 </p>
                 <div className={orderCardDetailsStyles.cost}>
-                  <p className={orderCardDetailsStyles.amount}>
-                    {ingredientsForOrderCard[el].type === "bun" ? "2" : "1"}
-                  </p>
+                  <p className={orderCardDetailsStyles.amount}>{el[1]}</p>
                   <p className={orderCardDetailsStyles.amount}>x</p>
                   <BurgerPrice
-                    price={ingredientsForOrderCard[el].price}
+                    price={ingredientsForOrderCard[el[0]].price}
                     fontStyle="text_type_digits-default"
                   />
                 </div>
@@ -112,7 +137,7 @@ export const OrderCardDetails = ({
               <FormattedDate date={new Date(order.createdAt)} />
             </p>
             <BurgerPrice
-              price={totalPrice}
+              price={orderIngredientsInfo?.totalPrice}
               fontStyle="text_type_digits-default"
             />
           </div>

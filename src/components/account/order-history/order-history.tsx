@@ -4,7 +4,10 @@ import { OrderCard } from "../../order-card/order-card";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "../../../services/reducer";
 import { FEED_PAGE_PROFILE_SERVER_URL } from "../../../utils/burger-api";
-import { connectProfile } from "../../../services/order-feed-profile/actions";
+import {
+  connectProfile,
+  disconnectProfile,
+} from "../../../services/order-feed-profile/actions";
 import { TOrderCard } from "../../../utils/types";
 
 const OrderHistory = (): JSX.Element => {
@@ -12,7 +15,16 @@ const OrderHistory = (): JSX.Element => {
   const { orderFeedProfile } = useSelector((store) => store);
 
   useEffect(() => {
-    dispatch(connectProfile(FEED_PAGE_PROFILE_SERVER_URL));
+    dispatch(
+      connectProfile(
+        `${FEED_PAGE_PROFILE_SERVER_URL}?token=${localStorage
+          .getItem("accessToken")
+          ?.slice(7)}`
+      )
+    );
+    return () => {
+      dispatch(disconnectProfile());
+    };
   }, [dispatch]);
 
   const location = useLocation();

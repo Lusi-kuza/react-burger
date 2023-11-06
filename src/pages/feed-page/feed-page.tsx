@@ -5,7 +5,7 @@ import { OrderCard } from "../../components/order-card/order-card";
 import { TOrderCard } from "../../utils/types";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/reducer";
-import { connect } from "../../services/order-feed/actions";
+import { connect, disconnect } from "../../services/order-feed/actions";
 import { FEED_PAGE_SERVER_URL } from "../../utils/burger-api";
 
 type TOrdersStatus = {
@@ -19,7 +19,11 @@ const FeedPage = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(connect(FEED_PAGE_SERVER_URL));
-  }, [dispatch]);
+
+    return () => {
+      dispatch(disconnect());
+    };
+  }, []);
 
   const ordersStatus = orderFeed.orders.reduce(
     (obj: TOrdersStatus, order: TOrderCard) => {

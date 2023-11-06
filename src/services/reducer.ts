@@ -35,10 +35,7 @@ import {
   wsMessageProfile,
   wsOpenProfile,
 } from "./order-feed-profile/actions";
-import {
-  FEED_PAGE_PROFILE_SERVER_URL,
-  FEED_PAGE_SERVER_URL,
-} from "../utils/burger-api";
+
 import { orderFeedReducerProfile } from "./order-feed-profile/reducer";
 import { TOrderActions } from "./order/actions";
 import { TIngredientsActions } from "./ingredients/actions";
@@ -55,7 +52,7 @@ export const rootReducer = combineReducers({
 
 export type TRootState = ReturnType<typeof rootReducer>;
 
-export const orderFeedMiddleware = socketMiddleware(FEED_PAGE_SERVER_URL, {
+export const orderFeedMiddleware = socketMiddleware({
   wsConnect: connect,
   wsDisconnect: disconnect,
   wsConnecting: wsConnecting,
@@ -65,18 +62,15 @@ export const orderFeedMiddleware = socketMiddleware(FEED_PAGE_SERVER_URL, {
   onError: wsError,
 });
 
-export const orderFeedProfileMiddleware = socketMiddleware(
-  FEED_PAGE_PROFILE_SERVER_URL,
-  {
-    wsConnect: connectProfile,
-    wsDisconnect: disconnectProfile,
-    wsConnecting: wsConnectingProfile,
-    onOpen: wsOpenProfile,
-    onClose: wsCloseProfile,
-    onMessage: wsMessageProfile,
-    onError: wsErrorProfile,
-  }
-);
+export const orderFeedProfileMiddleware = socketMiddleware({
+  wsConnect: connectProfile,
+  wsDisconnect: disconnectProfile,
+  wsConnecting: wsConnectingProfile,
+  onOpen: wsOpenProfile,
+  onClose: wsCloseProfile,
+  onMessage: wsMessageProfile,
+  onError: wsErrorProfile,
+});
 
 export type AppActions =
   | TIngredientsActions

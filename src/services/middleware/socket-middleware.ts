@@ -33,12 +33,12 @@ export type TWsActionTypes = {
 };
 
 export const socketMiddleware = (
-  wsUrl: string,
   wsActions: TWsActionTypes
 ): Middleware<{}, TRootState> => {
   return (store) => {
     let socket: WebSocket | null = null;
     let closing = false;
+    let wsUrl: string;
 
     return (next) => (action) => {
       const { dispatch } = store;
@@ -53,10 +53,10 @@ export const socketMiddleware = (
         onMessage,
       } = wsActions;
 
-      if (wsConnect(wsUrl).type === action.type) {
-        socket = new WebSocket(
-          `${wsUrl}?token=${localStorage.getItem("accessToken")?.slice(7)}`
-        );
+      if (wsConnect(action.payload).type === action.type) {
+        wsUrl = action.payload;
+        closing = false;
+        socket = new WebSocket(wsUrl);
         dispatch(wsConnecting());
       }
       if (socket) {
