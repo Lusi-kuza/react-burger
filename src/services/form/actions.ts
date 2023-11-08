@@ -7,19 +7,58 @@ import {
   resetPasswordRequest,
   updateUserInfoRequest,
 } from "../../utils/burger-api";
+import { TForm, TRegister, TReset } from "../../utils/types";
+import { AppThunk } from "../reducer";
 
-export const SET_FORM_REQUEST = "SET_FORM_REQUEST";
-export const SET_USER_SUCCESS = "SET_USER_SUCCESS";
-export const GET_PASSWORD_SUCCESS = "GET_PASSWORD_SUCCESS";
-export const SET_FORM_FAILED = "SET_FORM_FAILED";
-export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
+export const SET_FORM_REQUEST: "SET_FORM_REQUEST" = "SET_FORM_REQUEST";
+export const SET_USER_SUCCESS: "SET_USER_SUCCESS" = "SET_USER_SUCCESS";
+export const GET_PASSWORD_SUCCESS: "GET_PASSWORD_SUCCESS" =
+  "GET_PASSWORD_SUCCESS";
+export const SET_FORM_FAILED: "SET_FORM_FAILED" = "SET_FORM_FAILED";
+export const SET_AUTH_CHECKED: "SET_AUTH_CHECKED" = "SET_AUTH_CHECKED";
 
-export const setAuthChecked = (value) => ({
+type TSetFormRequestAction = {
+  type: typeof SET_FORM_REQUEST;
+};
+
+type TSetUserSuccessAction = {
+  type: typeof SET_USER_SUCCESS;
+  payload: {
+    email: string;
+    name: string;
+  } | null;
+};
+
+type TGetPasswordSuccessAction = {
+  type: typeof GET_PASSWORD_SUCCESS;
+  payload: boolean;
+};
+
+type TSetFormFailedAction = {
+  type: typeof SET_FORM_FAILED;
+};
+
+type TSetAuthCheckedAction = {
+  type: typeof SET_AUTH_CHECKED;
+  payload: boolean;
+};
+
+export type TFormActions =
+  | TSetFormRequestAction
+  | TSetUserSuccessAction
+  | TGetPasswordSuccessAction
+  | TSetFormFailedAction
+  | TSetAuthCheckedAction;
+
+export const setAuthChecked = (value: boolean): TSetAuthCheckedAction => ({
   type: SET_AUTH_CHECKED,
   payload: value,
 });
 
-export const setUser = (form, request) => {
+export const setUser = (
+  form: TForm | Omit<TForm, "name">,
+  request: (form: any) => Promise<TRegister>
+): AppThunk => {
   return function (dispatch) {
     dispatch({
       type: SET_FORM_REQUEST,
@@ -40,15 +79,15 @@ export const setUser = (form, request) => {
   };
 };
 
-export const registerUser = (form) => {
+export const registerUser = (form: TForm): AppThunk => {
   return setUser(form, registerRequest);
 };
 
-export const loginUser = (form) => {
+export const loginUser = (form: Omit<TForm, "name">) => {
   return setUser(form, loginRequest);
 };
 
-export const logoutUser = (request) => {
+export const logoutUser = (): AppThunk => {
   return function (dispatch) {
     dispatch({
       type: SET_FORM_REQUEST,
@@ -68,7 +107,7 @@ export const logoutUser = (request) => {
   };
 };
 
-export const getPassword = (form) => {
+export const getPassword = (form: Pick<TForm, "email">): AppThunk => {
   return function (dispatch) {
     dispatch({
       type: SET_FORM_REQUEST,
@@ -86,7 +125,7 @@ export const getPassword = (form) => {
   };
 };
 
-export const resetPassword = (form) => {
+export const resetPassword = (form: TReset): AppThunk => {
   return function (dispatch) {
     dispatch({
       type: SET_FORM_REQUEST,
@@ -104,7 +143,7 @@ export const resetPassword = (form) => {
   };
 };
 
-export const getUserInfo = () => {
+export const getUserInfo = (): AppThunk<Promise<unknown>> => {
   return function (dispatch) {
     dispatch({
       type: SET_FORM_REQUEST,
@@ -123,7 +162,7 @@ export const getUserInfo = () => {
   };
 };
 
-export const updateUserInfo = (form) => {
+export const updateUserInfo = (form: TForm): AppThunk => {
   return function (dispatch) {
     dispatch({
       type: SET_FORM_REQUEST,
@@ -141,7 +180,7 @@ export const updateUserInfo = (form) => {
   };
 };
 
-export const checkUserAuth = () => {
+export const checkUserAuth = (): AppThunk => {
   return (dispatch) => {
     if (localStorage.getItem("accessToken")) {
       dispatch(getUserInfo())

@@ -2,68 +2,29 @@ import React, { useState, useRef } from "react";
 
 import burgerIngredientsStyle from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  BurgerCategory,
-  TBurgerCategory,
-} from "./burger-category/burger-category";
-import { useSelector } from "react-redux";
-import { TBurgerProducts } from "../../utils/types";
+import { BurgerCategory } from "./burger-category/burger-category";
 
-type TIngredientsForCategory = {
-  bun: TBurgerCategory;
-  sauce: TBurgerCategory;
-  main: TBurgerCategory;
-};
+import { TIngredientsRef } from "../../utils/types";
+import { transformDataForCategory } from "../../utils/data";
+import { useSelector } from "../../services/reducer";
 
 const BurgerIngredients = (): JSX.Element => {
-  const { INGREDIENTS_DATA } = useSelector(
-    //@ts-ignore
-    (store) => store.ingredients
-  );
+  const { INGREDIENTS_DATA } = useSelector((store) => store.ingredients);
 
   const [currentCategory, setCurrentCategory] = useState("bun");
 
-  const tabRef = useRef<HTMLDivElement | null>(null);
+  const tabRef = useRef<TIngredientsRef>(null);
 
-  const bunRef = useRef<HTMLDivElement | null>(null);
-  const sauceRef = useRef<HTMLDivElement | null>(null);
-  const mainRef = useRef<HTMLDivElement | null>(null);
+  const bunRef = useRef<TIngredientsRef>(null);
+  const sauceRef = useRef<TIngredientsRef>(null);
+  const mainRef = useRef<TIngredientsRef>(null);
 
-  const ingredientsForCategory: TIngredientsForCategory =
-    INGREDIENTS_DATA.reduce(
-      (obj: TIngredientsForCategory, item: TBurgerProducts) => {
-        if (item.type === "bun") {
-          obj.bun.products.push(item);
-        }
-        if (item.type === "main") {
-          obj.main.products.push(item);
-        }
-        if (item.type === "sauce") {
-          obj.sauce.products.push(item);
-        }
-        return obj;
-      },
-      {
-        bun: {
-          idCategory: 1,
-          nameCategory: "Булки",
-          products: [],
-          categoryRef: bunRef,
-        },
-        sauce: {
-          idCategory: 2,
-          nameCategory: "Соусы",
-          products: [],
-          categoryRef: sauceRef,
-        },
-        main: {
-          idCategory: 3,
-          nameCategory: "Начинки",
-          products: [],
-          categoryRef: mainRef,
-        },
-      }
-    );
+  const ingredientsForCategory = transformDataForCategory(
+    INGREDIENTS_DATA,
+    bunRef,
+    sauceRef,
+    mainRef
+  );
 
   const scrollCategory = () => {
     const bottomTab = tabRef.current!.getBoundingClientRect().bottom;

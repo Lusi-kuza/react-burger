@@ -1,5 +1,5 @@
 .modal {
-  z-index: 2;
+  z-index: 11;
   position: absolute;
   top: calc(100vh / 2 - 270px);
   left: calc(100vw / 2 - 360px);

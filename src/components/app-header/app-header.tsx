@@ -47,9 +47,9 @@ const AppHeader = (): JSX.Element => {
             )}
           </NavLink>
         </div>
-        <div className={headerStyles.menu_logo}>
+        <NavLink to="/" className={headerStyles.menu_logo}>
           <Logo />
-        </div>
+        </NavLink>
         <div className={headerStyles.menu_right_block}>
           <NavLink to="/profile" className={headerStyles.menu_item}>
             {({ isActive }) => (

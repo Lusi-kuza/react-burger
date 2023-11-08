@@ -1,0 +1,36 @@
+.icon {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  border: solid 2px var(--colors-interface-accent);
+  background: var(--background-alt);
+  box-sizing: border-box;
+}
+
+.img {
+  position: relative;
+  width: 112px;
+  top: 2px;
+  left: -26px;
+  z-index: auto;
+}
+
+.overlay_icon {
+  position: absolute;
+  border-radius: 100%;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background: rgba(28, 28, 33, 0.6);
+}
+
+.count {
+  margin-top: 19px;
+  text-align: center;
+  composes: text_type_main-default from global;
+}

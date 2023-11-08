@@ -7,7 +7,7 @@ import { ModalOverlay } from "./modal-overlay/modal-overlay";
 const modalRoot = document.getElementById("react-modals");
 
 type TModalProps = {
-  title: string;
+  title?: string;
   children: JSX.Element;
   closeModal: () => void;
 };

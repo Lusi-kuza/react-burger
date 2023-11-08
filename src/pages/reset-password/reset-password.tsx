@@ -4,14 +4,13 @@ import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-component
 import { AuthForm } from "../../components/account/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/input";
 import { Link, Navigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/form/actions";
+import { useDispatch, useSelector } from "../../services/reducer";
 
 const ResetPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const isPasswordReceived = useSelector(
-    //@ts-ignore
     (store) => store.form.isPasswordReceived
   );
 
@@ -26,7 +25,6 @@ const ResetPasswordPage = (): JSX.Element => {
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(resetPassword(formValue));
   };
 

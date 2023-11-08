@@ -6,13 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
-import { rootReducer } from "./services/reducer";
+import {
+  orderFeedMiddleware,
+  orderFeedProfileMiddleware,
+  rootReducer,
+} from "./services/reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { BrowserRouter } from "react-router-dom";
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(
+    applyMiddleware(thunk, orderFeedMiddleware, orderFeedProfileMiddleware)
+  )
 );
 
 const root = ReactDOM.createRoot(

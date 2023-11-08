@@ -4,19 +4,17 @@ import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components/d
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/password-input";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/input";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/button";
-import { useDispatch, useSelector } from "react-redux";
+
 import { updateUserInfo } from "../../../services/form/actions";
 import { TForm } from "../../../utils/types";
+import { useDispatch, useSelector } from "../../../services/reducer";
 
 const ProfileForm = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { email, name } = useSelector(
-    //@ts-ignore
-    (store) => store.form.user
-  );
+  const { email, name } = useSelector((store) => store.form.user!);
 
-  const initialFormValue = {
+  const initialFormValue: TForm = {
     email: email,
     password: "",
     name: name,
@@ -34,7 +32,6 @@ const ProfileForm = (): JSX.Element => {
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(updateUserInfo(formValue));
   };
 

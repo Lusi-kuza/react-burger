@@ -6,7 +6,7 @@ import { AuthForm } from "../../components/account/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/input";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../services/form/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/reducer";
 
 const RegisterPage = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -23,7 +23,6 @@ const RegisterPage = (): JSX.Element => {
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(registerUser(formValue));
   };
 
