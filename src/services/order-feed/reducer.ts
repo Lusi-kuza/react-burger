@@ -16,7 +16,7 @@ type TOrderFeedState = {
   connectingError: string;
 };
 
-const initialState: TOrderFeedState = {
+export const initialState: TOrderFeedState = {
   status: WebsocketStatus.OFFLINE,
   orders: [],
   total: 0,

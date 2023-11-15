@@ -115,7 +115,7 @@ const BurgerConstructor = (): JSX.Element => {
         style={{ display: "flex", flexDirection: "column", gap: "16px" }}
       >
         {bun ? (
-          <div ref={bunDropTarget}>
+          <div ref={bunDropTarget} data-testid="bunDropTarget">
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -128,6 +128,7 @@ const BurgerConstructor = (): JSX.Element => {
         ) : (
           <div
             ref={bunDropTarget}
+            data-testid="bunDropTarget"
             className={`${borderColorBun} ${burgerConstructorStyle.constructor_element} ${burgerConstructorStyle.constructor_element_pos_top} ml-7`}
           >
             Выберите булки
@@ -137,6 +138,7 @@ const BurgerConstructor = (): JSX.Element => {
           <ul
             className={`${burgerConstructorStyle.insides}  ${borderColorFilling} custom-scroll`}
             ref={fillingDropTarget}
+            data-testid="fillingDropTarget"
           >
             {ingredient.map((el: TBurgerConstructorProducts, ind: number) => (
               <IngredientList key={el.id_for_key} product={el} index={ind} />
@@ -145,6 +147,7 @@ const BurgerConstructor = (): JSX.Element => {
         ) : (
           <div
             ref={fillingDropTarget}
+            data-testid="fillingDropTarget"
             className={`${burgerConstructorStyle.constructor_element} ${borderColorFilling} ml-7`}
           >
             Выберите начинку

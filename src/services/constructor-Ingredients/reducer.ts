@@ -13,7 +13,7 @@ type TConstructorState = {
   ingredient: Array<TBurgerConstructorProducts>;
 };
 
-const initialState: TConstructorState = {
+export const initialState: TConstructorState = {
   bun: null,
   ingredient: [],
 };
@@ -30,7 +30,9 @@ export const constructorReducer = (
     case DELETE_INGREDIENT:
       return {
         ...state,
-        ingredient: state.ingredient.filter((item) => item !== action.payload),
+        ingredient: state.ingredient.filter(
+          (item) => item.id_for_key !== action.payload.id_for_key
+        ),
       };
 
     case MOVE_INGREDIENT:

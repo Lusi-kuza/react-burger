@@ -7,7 +7,11 @@ type TModalOverlayProps = {
 
 const ModalOverlay = ({ closeModal }: TModalOverlayProps): JSX.Element => {
   return (
-    <div className={modalOverlayStyles.overlay} onClick={closeModal}></div>
+    <div
+      className={modalOverlayStyles.overlay}
+      onClick={closeModal}
+      data-testid="modalOverlay"
+    ></div>
   );
 };
 

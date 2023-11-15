@@ -12,7 +12,7 @@ type TIngredientsState = {
   INGREDIENTS_DATA: Array<TBurgerProducts>;
 };
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   isLoading: false,
   hasError: false,
   INGREDIENTS_DATA: [],

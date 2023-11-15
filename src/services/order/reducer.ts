@@ -13,7 +13,7 @@ type TOrderState = {
   orderBurger: Array<string> | null;
 };
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   isLoading: false,
   hasError: false,
   orderNumber: null,

@@ -45,7 +45,11 @@ const BurgerCategory = React.memo(
           </h2>
           <ul className={`${burgerCategoryStyle.list} pl-4 `}>
             {ingredients.products.map((item) => (
-              <li key={item._id} className={burgerCategoryStyle.item}>
+              <li
+                key={item._id}
+                className={burgerCategoryStyle.item}
+                data-testid={ingredients.nameCategory}
+              >
                 <BurgerCard
                   ingredient={item}
                   count={
