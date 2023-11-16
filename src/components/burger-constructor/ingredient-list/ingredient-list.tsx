@@ -26,10 +26,6 @@ const IngredientList = ({
   product,
   index,
 }: TIngredientListProps): JSX.Element => {
-  const ingredient = useSelector(
-    (store) => store.constructorIngredients.ingredient
-  );
-
   const dispatch = useDispatch();
 
   const deleteIngredient = (elem: TBurgerConstructorProducts) => {

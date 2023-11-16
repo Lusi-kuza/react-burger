@@ -15,7 +15,7 @@ type TOrdersStatus = {
 
 const FeedPage = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { orderFeed } = useSelector((store) => store);
+  const { orders, totalToday, total } = useSelector((store) => store.orderFeed);
 
   useEffect(() => {
     dispatch(connect(FEED_PAGE_SERVER_URL));
@@ -25,7 +25,7 @@ const FeedPage = (): JSX.Element => {
     };
   }, []);
 
-  const ordersStatus = orderFeed.orders.reduce(
+  const ordersStatus = orders.reduce(
     (obj: TOrdersStatus, order: TOrderCard) => {
       if (order.status === "done" && obj.done.length < 20) {
         obj.done.push(order.number);
@@ -49,7 +49,7 @@ const FeedPage = (): JSX.Element => {
       <main className={feedPageStyle.main}>
         <div className={feedPageStyle.orders}>
           <ul className={feedPageStyle.list_orders}>
-            {orderFeed.orders.map((el) => (
+            {orders.map((el) => (
               <li key={el._id} className={feedPageStyle.item}>
                 <Link
                   to={`/feed/${el.number}`}
@@ -87,11 +87,11 @@ const FeedPage = (): JSX.Element => {
           </div>
           <div>
             <p className={feedPageStyle.title}>Выполнено за все время:</p>
-            <p className={feedPageStyle.count}>{orderFeed.total}</p>
+            <p className={feedPageStyle.count}>{total}</p>
           </div>
           <div>
             <p className={feedPageStyle.title}>Выполнено за сегодня:</p>
-            <p className={feedPageStyle.count}>{orderFeed.totalToday}</p>
+            <p className={feedPageStyle.count}>{totalToday}</p>
           </div>
         </div>
       </main>

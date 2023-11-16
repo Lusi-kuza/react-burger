@@ -1,14 +1,23 @@
+import { mainUrl } from "../../src/utils/burger-api";
+import {
+  bunCategory,
+  bunDropTarget,
+  fillingDropTarget,
+  souseCategory,
+} from "./const";
+
 describe("Test DnD", () => {
   beforeEach(() => {
-    cy.intercept("GET", "https://norma.nomoreparties.space/api/ingredients", {
+    cy.intercept("GET", `${mainUrl}/ingredients`, {
       fixture: "ingredients.json",
     }).as("getIngredients");
-    cy.visit("http://localhost:3000/");
+    cy.visit("");
+    cy.get(bunDropTarget).as("bunDropTarget");
+    cy.get(fillingDropTarget).as("fillingDropTarget");
   });
 
   it("should drag Crater Bun in burger constructor", () => {
-    cy.get('[data-testid="Булки"]').first().as("bunDrag");
-    cy.get('[data-testid="bunDropTarget"]').as("bunDropTarget");
+    cy.get(bunCategory).first().as("bunDrag");
     cy.get("@bunDrag").trigger("dragstart");
     cy.get("@bunDropTarget").trigger("drop");
     cy.get("@bunDropTarget").should("contain", "КKраторная булка");
@@ -16,8 +25,7 @@ describe("Test DnD", () => {
   });
 
   it("should drag Fluorescent bun in burger constructor ", () => {
-    cy.get('[data-testid="Булки"]').eq(1).as("bunDrag");
-    cy.get('[data-testid="bunDropTarget"]').as("bunDropTarget");
+    cy.get(bunCategory).eq(1).as("bunDrag");
     cy.get("@bunDrag").trigger("dragstart");
     cy.get("@bunDropTarget").trigger("drop");
     cy.get("@bunDropTarget").should("contain", "Флюоресцентная булка");
@@ -25,8 +33,7 @@ describe("Test DnD", () => {
   });
 
   it("should drag two Traditional  sauce in burger constructor and delete one", () => {
-    cy.get('[data-testid="Соусы"]').eq(2).as("fillingDrag");
-    cy.get('[data-testid="fillingDropTarget"]').as("fillingDropTarget");
+    cy.get(souseCategory).eq(2).as("fillingDrag");
     cy.get("@fillingDrag").trigger("dragstart");
     cy.get("@fillingDropTarget").trigger("drop");
     cy.get("@fillingDropTarget")
@@ -70,8 +77,7 @@ describe("Test DnD", () => {
   });
 
   it("replace ingredients", () => {
-    cy.get('[data-testid="Соусы"]').first().as("souseDrag");
-    cy.get('[data-testid="fillingDropTarget"]').as("fillingDropTarget");
+    cy.get(souseCategory).first().as("souseDrag");
     cy.get("@souseDrag").trigger("dragstart");
     cy.get("@fillingDropTarget").trigger("drop");
 
