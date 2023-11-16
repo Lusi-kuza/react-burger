@@ -49,7 +49,7 @@ const IngredientList = ({
         },
       });
     },
-    [ingredient]
+    [dispatch]
   );
 
   const ref = useRef<HTMLLIElement | null>(null);

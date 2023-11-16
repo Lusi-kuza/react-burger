@@ -54,6 +54,7 @@ const BurgerIngredients = (): JSX.Element => {
     <div className={`${burgerIngredientsStyle.block} pt-10`}>
       <h1
         className={`${burgerIngredientsStyle.title} text_type_main-large mb-5`}
+        data-testid="titleBurgerIngredients"
       >
         Соберите бургер
       </h1>

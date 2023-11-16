@@ -11,7 +11,10 @@ describe("Checking the operation of the modal window", () => {
     cy.get('[data-testid="modal"]').should("contain", "Детали ингредиента");
     cy.contains("КKраторная булка N-200i");
     cy.get('[data-testid="modalOverlay"]').click({ force: true });
-    cy.contains("Соберите бургер");
+    cy.get('[data-testid="titleBurgerIngredients"]').should(
+      "contain",
+      "Соберите бургер"
+    );
   });
 
   it("should open modal window category  SOUSE ", () => {
@@ -19,6 +22,9 @@ describe("Checking the operation of the modal window", () => {
     cy.get('[data-testid="modal"]').should("contain", "Детали ингредиента");
     cy.contains("Соус Spicy-X");
     cy.get('[data-testid="modalIcon"]').click();
-    cy.contains("Соберите бургер");
+    cy.get('[data-testid="titleBurgerIngredients"]').should(
+      "contain",
+      "Соберите бургер"
+    );
   });
 });

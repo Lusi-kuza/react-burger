@@ -29,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "npx cypress open",
+    "deploy-script": "npm run build && scp -i C:\\Users\\Denis\\.ssh\\id_project -r ./build/* lusi-kuza@158.160.86.67:/var/www/stellar-burgers"
   },
   "eslintConfig": {
     "extends": [

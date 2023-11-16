@@ -12,6 +12,7 @@ const OrderDetails = ({ order }: TOrderDetailsProps): JSX.Element => {
     <div className={orderDetailsStyles.order}>
       <p
         className={`${orderDetailsStyles.order_number} text_type_digits-large mt-4 mb-8`}
+        data-testid="orderNumber"
       >
         {order}
       </p>
