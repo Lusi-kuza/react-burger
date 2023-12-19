@@ -1,0 +1,7 @@
+.container {
+  composes: pt-10 from global;
+}
+
+.error {
+  composes: text_type_main-large mt-10 from global;
+}

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import appStyle from "./app.module.css";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import {
   FeedPage,
@@ -53,11 +54,11 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <div className="pt-10">
+    <div className={appStyle.container}>
       <AppHeader />
       {isLoading && <Preloader />}
       {!isLoading && hasError && (
-        <p className="text_type_main-large mt-10">Ошибка при загрузке данных</p>
+        <p className={appStyle.error}>Ошибка при загрузке данных</p>
       )}
       {!isLoading && !hasError && INGREDIENTS_DATA.length > 0 && (
         <>
