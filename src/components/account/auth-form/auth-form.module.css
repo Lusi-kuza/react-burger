@@ -4,3 +4,7 @@
   align-items: center;
   gap: 24px;
 }
+
+.title {
+  composes: text_type_main-medium from global;
+}
