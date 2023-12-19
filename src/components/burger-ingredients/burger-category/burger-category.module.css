@@ -1,7 +1,16 @@
+.category {
+  composes: pb-10 from global;
+}
+
+.title {
+  composes: text_type_main-medium mb-6 from global;
+}
+
 .list {
   display: flex;
   flex-flow: row wrap;
   gap: 32px 24px;
+  composes: pl-4 from global;
 }
 
 .item {

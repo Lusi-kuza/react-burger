@@ -39,11 +39,14 @@ const BurgerCategory = React.memo(
 
     return (
       <div>
-        <section className="pb-10" ref={ingredients.categoryRef}>
-          <h2 className="text_type_main-medium mb-6">
+        <section
+          className={burgerCategoryStyle.category}
+          ref={ingredients.categoryRef}
+        >
+          <h2 className={burgerCategoryStyle.title}>
             {ingredients.nameCategory}
           </h2>
-          <ul className={`${burgerCategoryStyle.list} pl-4 `}>
+          <ul className={burgerCategoryStyle.list}>
             {ingredients.products.map((item) => (
               <li
                 key={item._id}
