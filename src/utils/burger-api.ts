@@ -15,7 +15,7 @@ interface TOptions extends RequestInit {
   };
 }
 
-const mainUrl = "https://norma.nomoreparties.space/api";
+export const mainUrl = "https://norma.nomoreparties.space/api";
 export const FEED_PAGE_SERVER_URL =
   "wss://norma.nomoreparties.space/orders/all";
 

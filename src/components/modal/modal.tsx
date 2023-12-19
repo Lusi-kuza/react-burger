@@ -28,8 +28,14 @@ const Modal = ({ title, children, closeModal }: TModalProps): JSX.Element => {
       <ModalOverlay closeModal={closeModal} />
       <div className={`${modalStyles.modal} pt-10 pr-10 pb-15 pl-10`}>
         <div className={modalStyles.title}>
-          <p className="text_type_main-large">{title}</p>
-          <div className={modalStyles.icon} onClick={closeModal}>
+          <p className="text_type_main-large" data-testid="modal">
+            {title}
+          </p>
+          <div
+            className={modalStyles.icon}
+            data-testid="modalIcon"
+            onClick={closeModal}
+          >
             <CloseIcon type="primary" />
           </div>
         </div>

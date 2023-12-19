@@ -17,7 +17,9 @@ const AuthForm = ({
 }: TAuthFormProps): JSX.Element => {
   return (
     <form className={`${authFormStyle.form} `} onSubmit={(e) => submitForm(e)}>
-      <p className="text_type_main-medium">{titleForm}</p>
+      <p className="text_type_main-medium" data-testid="titleAuthForm">
+        {titleForm}
+      </p>
       {children}
       <Button htmlType="submit" type="primary" size="medium">
         {titleButton}

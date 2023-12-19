@@ -43,6 +43,7 @@ const LoginPage = (): JSX.Element => {
             value={formValue.email}
             name={"email"}
             isIcon={false}
+            data-testid="emailInput"
           />
           <PasswordInput
             onChange={handleInputChange}

@@ -18,7 +18,7 @@ type TFormState = {
   isPasswordReceived: boolean;
 };
 
-const initialState: TFormState = {
+export const initialState: TFormState = {
   isLoading: false,
   hasError: false,
   user: null,

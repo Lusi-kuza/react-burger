@@ -26,8 +26,11 @@ export const OrderCardDetails = ({
 }: TOrderCardDetailsProps): JSX.Element => {
   const { INGREDIENTS_DATA } = useSelector((store) => store.ingredients);
 
-  const { orderFeed } = useSelector((store) => store);
-  const { orderFeedProfile } = useSelector((store) => store);
+  const orderFeedData = useSelector((store) => store.orderFeed.orders);
+
+  const orderFeedProfileData = useSelector(
+    (store) => store.orderFeedProfile.orders
+  );
 
   const ingredientsForOrderCard = transformDataForOrderCard(INGREDIENTS_DATA);
 
@@ -35,8 +38,8 @@ export const OrderCardDetails = ({
   const [orderInfo, setOrderInfo] = useState<TOrderCard>();
 
   let order =
-    orderFeed.orders.find((el: TOrderCard) => el.number === Number(orderId)) ||
-    orderFeedProfile.orders.find(
+    orderFeedData.find((el: TOrderCard) => el.number === Number(orderId)) ||
+    orderFeedProfileData.find(
       (el: TOrderCard) => el.number === Number(orderId)
     ) ||
     orderInfo;
