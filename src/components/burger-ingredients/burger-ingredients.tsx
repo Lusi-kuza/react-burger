@@ -51,14 +51,14 @@ const BurgerIngredients = (): JSX.Element => {
   };
 
   return (
-    <div className={`${burgerIngredientsStyle.block} pt-10`}>
+    <div className={burgerIngredientsStyle.block}>
       <h1
-        className={`${burgerIngredientsStyle.title} text_type_main-large mb-5`}
+        className={burgerIngredientsStyle.title}
         data-testid="titleBurgerIngredients"
       >
         Соберите бургер
       </h1>
-      <div className={`${burgerIngredientsStyle.tab} mb-10`} ref={tabRef}>
+      <div className={burgerIngredientsStyle.tab} ref={tabRef}>
         <Tab
           value="bun"
           active={currentCategory === "bun"}
@@ -83,7 +83,7 @@ const BurgerIngredients = (): JSX.Element => {
       </div>
 
       <div
-        className={`${burgerIngredientsStyle.ingredients} custom-scroll`}
+        className={burgerIngredientsStyle.ingredients}
         onScroll={scrollCategory}
       >
         {Object.values(ingredientsForCategory).map((item) => (
