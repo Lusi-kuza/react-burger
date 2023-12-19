@@ -12,7 +12,7 @@ import { TOrderCard } from "../../../utils/types";
 
 const OrderHistory = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { orderFeedProfile } = useSelector((store) => store);
+  const orders = useSelector((store) => store.orderFeedProfile.orders);
 
   useEffect(() => {
     dispatch(
@@ -31,8 +31,8 @@ const OrderHistory = (): JSX.Element => {
   return (
     <div className={orderHistoryStyle.order}>
       <ul className={orderHistoryStyle.list_orders}>
-        {orderFeedProfile.orders.length > 0 &&
-          orderFeedProfile.orders.reduceRight(
+        {orders.length > 0 &&
+          orders.reduceRight(
             (arr: JSX.Element[], el: TOrderCard) => [
               ...arr,
               <li key={el._id} className={orderHistoryStyle.item}>
