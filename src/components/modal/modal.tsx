@@ -26,11 +26,9 @@ const Modal = ({ title, children, closeModal }: TModalProps): JSX.Element => {
   return ReactDOM.createPortal(
     <>
       <ModalOverlay closeModal={closeModal} />
-      <div className={`${modalStyles.modal} pt-10 pr-10 pb-15 pl-10`}>
+      <div className={modalStyles.modal}>
         <div className={modalStyles.title}>
-          <p className="text_type_main-large" data-testid="modal">
-            {title}
-          </p>
+          <p data-testid="modal">{title}</p>
           <div
             className={modalStyles.icon}
             data-testid="modalIcon"

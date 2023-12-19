@@ -7,6 +7,7 @@
   border-radius: 40px;
   background: var(--background);
   box-sizing: border-box;
+  composes: pt-10 pr-10 pb-15 pl-10 from global;
 }
 
 .title {
@@ -14,6 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  composes: text_type_main-large from global;
 }
 
 .icon {
