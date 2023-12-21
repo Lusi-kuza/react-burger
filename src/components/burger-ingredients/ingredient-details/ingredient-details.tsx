@@ -21,43 +21,35 @@ const IngredientDetails = (): JSX.Element => {
           <img
             src={ingredient.image_large}
             alt={ingredient.name}
-            className="ml-5 mr-5 mb-4"
+            className={ingredientDetailsStyles.image}
           />
-          <p
-            className={`${ingredientDetailsStyles.title} text_type_main-medium mb-8`}
-          >
-            {ingredient.name}
-          </p>
+          <p className={ingredientDetailsStyles.title}>{ingredient.name}</p>
           <div className={ingredientDetailsStyles.nutrition_values}>
             <div className={ingredientDetailsStyles.nutrients}>
-              <p className="text_type_main-default text_color_inactive">
+              <p className={ingredientDetailsStyles.nutrient_name}>
                 Калории,ккал
               </p>
-              <p className="text_type_digits-default text_color_inactive">
+              <p className={ingredientDetailsStyles.nutrient_value}>
                 {ingredient.calories}
               </p>
             </div>
             <div className={ingredientDetailsStyles.nutrients}>
-              <p className="text_type_main-default text_color_inactive">
-                Белки, г
-              </p>
-              <p className="text_type_digits-default text_color_inactive">
+              <p className={ingredientDetailsStyles.nutrient_name}>Белки, г</p>
+              <p className={ingredientDetailsStyles.nutrient_value}>
                 {ingredient.proteins}
               </p>
             </div>
             <div className={ingredientDetailsStyles.nutrients}>
-              <p className="text_type_main-default text_color_inactive">
-                Жиры, г
-              </p>
-              <p className="text_type_digits-default text_color_inactive">
+              <p className={ingredientDetailsStyles.nutrient_name}>Жиры, г</p>
+              <p className={ingredientDetailsStyles.nutrient_value}>
                 {ingredient.fat}
               </p>
             </div>
             <div className={ingredientDetailsStyles.nutrients}>
-              <p className="text_type_main-default text_color_inactive">
+              <p className={ingredientDetailsStyles.nutrient_name}>
                 Углеводы, г
               </p>
-              <p className="text_type_digits-default text_color_inactive">
+              <p className={ingredientDetailsStyles.nutrient_value}>
                 {ingredient.carbohydrates}
               </p>
             </div>

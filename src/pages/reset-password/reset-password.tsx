@@ -56,12 +56,9 @@ const ResetPasswordPage = (): JSX.Element => {
           />
         </AuthForm>
 
-        <div className={`${resetPasswordStyle.actions} text_type_main-default`}>
-          <p className="text_color_inactive">Вспомнили пароль?</p>
-          <Link
-            to="/login"
-            className={`${resetPasswordStyle.link} text_color_accent`}
-          >
+        <div className={resetPasswordStyle.actions}>
+          <p>Вспомнили пароль?</p>
+          <Link to="/login" className={resetPasswordStyle.link}>
             Войти
           </Link>
         </div>

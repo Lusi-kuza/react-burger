@@ -10,10 +10,14 @@
 
 .title {
   text-align: center;
+  composes: text_type_main-default from global;
 }
 
 .link {
   text-decoration: none;
-
   color: white;
+}
+
+.img {
+  composes: ml-4 mr-4 from global;
 }

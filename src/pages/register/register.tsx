@@ -55,12 +55,9 @@ const RegisterPage = (): JSX.Element => {
           />
         </AuthForm>
 
-        <div className={`${registerPageStyle.actions} text_type_main-default`}>
-          <p className="text_color_inactive">Уже зарегистрированы?</p>
-          <Link
-            to="/login"
-            className={`${registerPageStyle.link} text_color_accent`}
-          >
+        <div className={registerPageStyle.actions}>
+          <p>Уже зарегистрированы?</p>
+          <Link to="/login" className={registerPageStyle.link}>
             Войти
           </Link>
         </div>

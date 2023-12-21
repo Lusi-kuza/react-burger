@@ -10,20 +10,17 @@ type TOrderDetailsProps = {
 const OrderDetails = ({ order }: TOrderDetailsProps): JSX.Element => {
   return (
     <div className={orderDetailsStyles.order}>
-      <p
-        className={`${orderDetailsStyles.order_number} text_type_digits-large mt-4 mb-8`}
-        data-testid="orderNumber"
-      >
+      <p className={orderDetailsStyles.order_number} data-testid="orderNumber">
         {order}
       </p>
-      <p className="text_type_main-medium mb-15">идентификатор заказа</p>
+      <p className={orderDetailsStyles.order_id}>идентификатор заказа</p>
       <div className={orderDetailsStyles.logo}>
         <img src={logo} alt="логотип" />
       </div>
-      <p className="text_type_main-default mb-2 mt-15">
+      <p className={orderDetailsStyles.info_active}>
         Ваш заказ начали готовить
       </p>
-      <p className="text_type_main-default text_color_inactive mb-15">
+      <p className={orderDetailsStyles.info_inactive}>
         Дождитесь готовности на орбитальной станции
       </p>
     </div>

@@ -51,24 +51,16 @@ const LoginPage = (): JSX.Element => {
             name={"password"}
           />
         </AuthForm>
-        <div
-          className={`${loginPageStyle.additional_actions} text_type_main-default`}
-        >
+        <div className={loginPageStyle.additional_actions}>
           <div className={loginPageStyle.actions}>
-            <p className="text_color_inactive">Вы - новый пользователь?</p>
-            <Link
-              to="/register"
-              className={`${loginPageStyle.link} text_color_accent`}
-            >
+            <p>Вы - новый пользователь?</p>
+            <Link to="/register" className={loginPageStyle.link}>
               Зарегистрироваться
             </Link>
           </div>
           <div className={loginPageStyle.actions}>
-            <p className="text_color_inactive">Забыли пароль?</p>
-            <Link
-              to="/forgot-password"
-              className={`${loginPageStyle.link} text_color_accent`}
-            >
+            <p>Забыли пароль?</p>
+            <Link to="/forgot-password" className={loginPageStyle.link}>
               Восстановить пароль
             </Link>
           </div>

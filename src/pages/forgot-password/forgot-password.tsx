@@ -50,14 +50,9 @@ const ForgotPasswordPage = (): JSX.Element => {
           />
         </AuthForm>
 
-        <div
-          className={`${forgotPasswordStyle.actions} text_type_main-default`}
-        >
-          <p className="text_color_inactive">Вспомнили пароль?</p>
-          <Link
-            to="/login"
-            className={`${forgotPasswordStyle.link} text_color_accent`}
-          >
+        <div className={forgotPasswordStyle.actions}>
+          <p>Вспомнили пароль?</p>
+          <Link to="/login" className={forgotPasswordStyle.link}>
             Войти
           </Link>
         </div>

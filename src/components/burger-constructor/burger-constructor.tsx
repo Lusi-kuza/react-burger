@@ -109,11 +109,8 @@ const BurgerConstructor = (): JSX.Element => {
     : "";
 
   return (
-    <div className={`${burgerConstructorStyle.block} pt-25 pl-4 `}>
-      <div
-        className={`${burgerConstructorStyle.burger} mb-10`}
-        style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-      >
+    <div className={burgerConstructorStyle.block}>
+      <div className={burgerConstructorStyle.burger}>
         {bun ? (
           <div ref={bunDropTarget} data-testid="bunDropTarget">
             <ConstructorElement
@@ -122,21 +119,21 @@ const BurgerConstructor = (): JSX.Element => {
               text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image}
-              extraClass={`${borderColorBun} ml-7`}
+              extraClass={`${burgerConstructorStyle.margin_element} ${borderColorBun}`}
             />
           </div>
         ) : (
           <div
             ref={bunDropTarget}
             data-testid="bunDropTarget"
-            className={`${borderColorBun} ${burgerConstructorStyle.constructor_element} ${burgerConstructorStyle.constructor_element_pos_top} ml-7`}
+            className={`${burgerConstructorStyle.constructor_element_pos_top} ${borderColorBun}`}
           >
             Выберите булки
           </div>
         )}
         {ingredient.length > 0 ? (
           <ul
-            className={`${burgerConstructorStyle.insides}  ${borderColorFilling} custom-scroll`}
+            className={`${burgerConstructorStyle.insides} ${borderColorFilling}`}
             ref={fillingDropTarget}
             data-testid="fillingDropTarget"
           >
@@ -148,7 +145,7 @@ const BurgerConstructor = (): JSX.Element => {
           <div
             ref={fillingDropTarget}
             data-testid="fillingDropTarget"
-            className={`${burgerConstructorStyle.constructor_element} ${borderColorFilling} ml-7`}
+            className={`${burgerConstructorStyle.constructor_element} ${borderColorFilling}`}
           >
             Выберите начинку
           </div>
@@ -160,18 +157,18 @@ const BurgerConstructor = (): JSX.Element => {
             text={`${bun.name} (низ)`}
             price={bun.price}
             thumbnail={bun.image}
-            extraClass={"ml-7"}
+            extraClass={`${burgerConstructorStyle.margin_element} ${borderColorBun}`}
           />
         ) : (
           <div
-            className={`${burgerConstructorStyle.constructor_element} ${burgerConstructorStyle.constructor_element_pos_bottom} ml-7`}
+            className={`${borderColorBun} ${burgerConstructorStyle.constructor_element_pos_bottom}`}
           >
             Выберите булки
           </div>
         )}
       </div>
 
-      <div className={`${burgerConstructorStyle.ordering} mr-4`}>
+      <div className={burgerConstructorStyle.ordering}>
         <BurgerPrice price={totalPrice} fontStyle={"text_type_digits-medium"} />
         <Button
           htmlType="button"

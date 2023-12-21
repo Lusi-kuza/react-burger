@@ -40,15 +40,13 @@ const BurgerCard = ({ ingredient, count }: TBurgerCardProps): JSX.Element => {
         <img
           src={ingredient.image}
           alt={ingredient.name}
-          className="ml-4 mr-4"
+          className={burgerCardStyle.img}
         />
         <BurgerPrice
           price={ingredient.price}
           fontStyle={"text_type_digits-default"}
         />
-        <p className={`${burgerCardStyle.title} text_type_main-default`}>
-          {ingredient.name}
-        </p>
+        <p className={burgerCardStyle.title}>{ingredient.name}</p>
         {count && <Counter count={count} size="default" />}
       </div>
     </Link>
