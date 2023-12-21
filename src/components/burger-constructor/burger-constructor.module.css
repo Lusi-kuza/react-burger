@@ -9,19 +9,19 @@
   gap: 40px;
   justify-content: end;
   align-items: center;
-  composes: mr-4 from global;
+  composes: mr-4 mt-10 from global;
 }
 
 .burger {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  composes: mb-10 from global;
+  /* composes: mb-10 from global; */
 }
 
 .insides {
   composes: burger;
-  margin-bottom: 0;
+  /* margin-bottom: 0px; */
   overflow-y: scroll;
   max-height: calc(100vh - 550px);
   composes: custom-scroll from global;
