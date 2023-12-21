@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import burgerIngredientsStyle from "./burger-ingredients.module.css";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab";
 import { BurgerCategory } from "./burger-category/burger-category";
 
 import { TIngredientsRef } from "../../utils/types";
@@ -50,6 +50,14 @@ const BurgerIngredients = (): JSX.Element => {
     }
   };
 
+  const setTab = (tab: string): void => {
+    setCurrentCategory(tab);
+    if (tab === "bun") bunRef.current!.scrollIntoView({ behavior: "smooth" });
+    if (tab === "sauce")
+      sauceRef.current!.scrollIntoView({ behavior: "smooth" });
+    if (tab === "main") mainRef.current!.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className={burgerIngredientsStyle.block}>
       <h1
@@ -62,21 +70,21 @@ const BurgerIngredients = (): JSX.Element => {
         <Tab
           value="bun"
           active={currentCategory === "bun"}
-          onClick={setCurrentCategory}
+          onClick={() => setTab("bun")}
         >
           Булки
         </Tab>
         <Tab
           value="sauce"
           active={currentCategory === "sauce"}
-          onClick={setCurrentCategory}
+          onClick={() => setTab("sauce")}
         >
           Соусы
         </Tab>
         <Tab
           value="main"
           active={currentCategory === "main"}
-          onClick={setCurrentCategory}
+          onClick={() => setTab("main")}
         >
           Начинки
         </Tab>
