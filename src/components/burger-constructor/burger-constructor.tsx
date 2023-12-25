@@ -110,9 +110,9 @@ const BurgerConstructor = (): JSX.Element => {
 
   return (
     <div className={burgerConstructorStyle.block}>
-      <div className={burgerConstructorStyle.burger}>
+      <div className={burgerConstructorStyle.burger} ref={bunDropTarget}>
         {bun ? (
-          <div ref={bunDropTarget} data-testid="bunDropTarget">
+          <div data-testid="bunDropTarget">
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -124,7 +124,6 @@ const BurgerConstructor = (): JSX.Element => {
           </div>
         ) : (
           <div
-            ref={bunDropTarget}
             data-testid="bunDropTarget"
             className={`${burgerConstructorStyle.constructor_element_pos_top} ${borderColorBun}`}
           >
@@ -151,14 +150,16 @@ const BurgerConstructor = (): JSX.Element => {
           </div>
         )}
         {bun ? (
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={`${bun.name} (низ)`}
-            price={bun.price}
-            thumbnail={bun.image}
-            extraClass={`${burgerConstructorStyle.margin_element} ${borderColorBun}`}
-          />
+          <div>
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
+              extraClass={`${burgerConstructorStyle.margin_element} ${borderColorBun}`}
+            />
+          </div>
         ) : (
           <div
             className={`${borderColorBun} ${burgerConstructorStyle.constructor_element_pos_bottom}`}
