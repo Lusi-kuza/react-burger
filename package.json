@@ -1,6 +1,7 @@
 {
   "name": "react-burger",
   "version": "0.1.0",
+  "homepage": "https://lusi-kuza.github.io/react-burger/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -31,7 +32,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "npx cypress open",
-    "deploy-script": "npm run build && scp -i C:\\Users\\Denis\\.ssh\\id_project -r ./build/* lusi-kuza@158.160.86.67:/var/www/stellar-burgers"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -56,6 +58,7 @@
     "cypress": "^13.5.0",
     "eslint-plugin-cypress": "^2.15.1",
     "fetch-mock": "^9.11.0",
+    "gh-pages": "^6.1.1",
     "react-test-renderer": "^18.2.0",
     "redux-mock-store": "^1.5.4"
   }
