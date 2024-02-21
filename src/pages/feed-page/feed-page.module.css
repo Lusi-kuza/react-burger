@@ -18,6 +18,7 @@
 
 .list_orders {
   composes: custom-scroll from global;
+  scrollbar-width: thin;
   overflow-y: scroll;
   max-height: calc(100vh - 300px);
   display: flex;

@@ -23,6 +23,7 @@
   overflow-y: scroll;
   max-height: calc(100vh - 550px);
   composes: custom-scroll from global;
+  scrollbar-width: thin;
 }
 
 .margin_element {

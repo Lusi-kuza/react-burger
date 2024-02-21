@@ -24,6 +24,7 @@ const OrderCard = ({ order, showStatus }: TOrderCardProps): JSX.Element => {
 
   const objectForOrderCard = order.ingredients.reduce(
     (obj: TObjectForOrderCard, id: string) => {
+      if (id === null) return obj;
       obj.image.push(ingredientsForOrderCard[id].image);
       if (ingredientsForOrderCard[id].type === "bun") {
         obj.price = obj.price + 2 * ingredientsForOrderCard[id].price;

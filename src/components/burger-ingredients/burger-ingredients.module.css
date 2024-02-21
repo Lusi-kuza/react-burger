@@ -18,4 +18,5 @@
   overflow-y: scroll;
   max-height: calc(100vh - 350px);
   composes: custom-scroll from global;
+  scrollbar-width: thin;
 }
